@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include "Plateau.h"
+#include "GestionJeu.h"
+#include "Reseau.h"
+#include <sys/types.h>          /* See NOTES */
+#include <sys/socket.h>
+#define MAX 256
+
+int main(){
+	
+	char tampon[MAX];
+	int numClient = socketClient("localhost", 7777, TCP);
+	read(numClient, tampon, MAX);
+	printf("%s\n" , tampon);
+
+	 close(numClient);
+	return EXIT_SUCCESS;
+}
