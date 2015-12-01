@@ -1,10 +1,9 @@
 # Makefile pour le projet de jeu des petits chevaux en ligne
-# TODO : à compléter
 
 CC = gcc --std=c99 -Wall -g -c
 LD = gcc
 
-PROG=testPlateau coteClient coteServ serveur
+PROG=testPlateau coteClient coteServ Client TestClient serveur
 all: $(PROG)
 
 clean:
@@ -19,6 +18,12 @@ coteServ : coteServ.o Reseau.o
 testPlateau: testPlateau.o Plateau.o GestionJeu.o
 	$(LD) -o testPlateau testPlateau.o Plateau.o GestionJeu.o
 
+Client : Client.o Reseau.o
+	$(LD) -o Client Client.o Reseau.o
+
+TestClient : TestClient.o Reseau.o
+	$(LD) -o TestClient TestClient.o Reseau.o
+
 serveur : serveur.o Reseau.o
 	$(LD) -o serveur serveur.o Reseau.o
 
@@ -28,7 +33,6 @@ GestionJeu.o: GestionJeu.c GestionJeu.h
 Plateau.o: Plateau.c Plateau.h GestionJeu.h
 	$(CC) Plateau.c
 
-
 Reseau.o: Reseau.c Reseau.h
 	$(CC) Reseau.c 
 
@@ -37,6 +41,12 @@ coteClient.o : coteClient.c Reseau.h
 
 coteServ.o : coteServ.c Reseau.h
 	$(CC) coteServ.c
+
+Client.o : Client.c Reseau.h
+	$(CC) Client.c
+
+TestClient.o : TestClient.c Reseau.h
+	$(CC) TestClient.c
 
 serveur.o : serveur.c Reseau.h
 	$(CC) serveur.c
