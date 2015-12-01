@@ -47,6 +47,10 @@ int main(int nbArgs, char* arg[]){
 	
 	read(numSocket, &numJoueur, sizeof(int));
 	printf("Mon numéro de joueur est %d\n", numJoueur);
-		
+	
+	int signalDepart;
+	read(numSocket, &signalDepart, sizeof(int));
+	printf("signal : %d\n", signalDepart);
+	
 	return EXIT_SUCCESS;
 }
