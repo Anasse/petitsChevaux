@@ -20,7 +20,7 @@ testPlateau: testPlateau.o Plateau.o GestionJeu.o
 	$(LD) -o testPlateau testPlateau.o Plateau.o GestionJeu.o
 
 serveur : serveur.o Reseau.o
-	$(LD) -o serveur serveur.o Reseau.o
+	$(LD) -o serveur serveur.o reseau.o
 
 GestionJeu.o: GestionJeu.c GestionJeu.h
 	$(CC) GestionJeu.c
