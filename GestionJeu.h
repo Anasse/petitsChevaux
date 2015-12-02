@@ -30,6 +30,12 @@ PUBLIC char whichChar(int pos);
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
 PUBLIC int nbHorsesHome(Team t);
 
+//Résultat pseudo-aléatoire correspondant au lancé d'un dé.
+PUBLIC int lancerDes();
+
+//Affiche un tableau d'entiers sur x lignes et y colones
+PUBLIC void afftab (int **tab, int x, int y);
+
 // Applique le choix du joueur
 PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux);
 
@@ -44,6 +50,7 @@ PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
 
 // Retourne la première case de l'escalier
 PUBLIC int getPremierEscalierJoueur(int numJoueur);
+
 
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */

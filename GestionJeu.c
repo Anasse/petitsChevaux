@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define GESTION_JEU_C
 #include "GestionJeu.h"
@@ -53,6 +54,26 @@ char whichChar(int pos) {
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
 int nbHorsesHome(Team t) {
     return 2;
+}
+
+int lancerDes(){
+	srand(time(NULL));
+	int resultat = (rand()%6 +1);
+	return (resultat);
+}
+
+void afftab (int **tab, int x, int y){
+	int i = 0;
+	int j = 0;
+	while(i<x){
+		j=0;
+		while(j<y){
+			printf("%d\t", tab[i*y+j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
 }
 
 void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux){

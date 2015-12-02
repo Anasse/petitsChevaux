@@ -3,13 +3,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "Reseau.h"
+#include "GestionJeu.h"
 #include <sys/socket.h>
+#include <stdlib.h>
 
 #define portPublic 17499
 
 int inscription(int tubeOut, int tubeIn , int paramNbJoueurs);
 int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int nbChevaux);
 int stringToInt (char* s);
+int **initChevaux (int paramNbJoueurs, int paramNbChevaux);
+
 
 int main (int nbArgs, char* args[]){
 	if(nbArgs != 3){
@@ -22,6 +26,7 @@ int main (int nbArgs, char* args[]){
 		int paramNbChevaux = stringToInt(args[2]);
 		int nbInscrits=0;
 		int i = 0;
+		int j = 0;
 		printf("Serveur des petits chevaux\nParties de %d joueurs à %d chevaux.\n", paramNbJoueurs, paramNbChevaux);
 		pid_t p=getpid();
 		//Création des tubes Base-interface
@@ -43,7 +48,7 @@ int main (int nbArgs, char* args[]){
 				return 0;
 			}
 			nbInscrits++;
-			printf("%d joueurs inscrits sur %d\n.", nbInscrits, paramNbJoueurs);
+			printf("%d joueurs inscrits sur %d.\n", nbInscrits, paramNbJoueurs);
 		}
 		shutdown(numServer, SHUT_RDWR);
 		//Envoi du signal de départ
@@ -55,8 +60,32 @@ int main (int nbArgs, char* args[]){
 			i++;
 		}
 		//JEU
-		//int posChevaux[paramNbJoueurs][paramNbChevaux] = initChevaux(paramNbJoueurs, paramNbChevaux);
-		
+		int **posChevaux = initChevaux(paramNbJoueurs, paramNbChevaux);
+		afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
+		int tour = 0;
+		int joueurDuTour = 0;
+		signal = 1;
+		while(tour < 5){
+			int de = lancerDes();
+			printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
+			i=0;
+			while(i<paramNbJoueurs){
+				write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
+				write(tubes_interfaces[2*i+1][1], &tour, sizeof(int));
+				write(tubes_interfaces[2*i+1][1], &joueurDuTour, sizeof(int));
+				write(tubes_interfaces[2*i+1][1], &de, sizeof(int));
+				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int*)*paramNbChevaux*paramNbJoueurs);
+				i++;
+			}
+			joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;
+			tour ++;
+		}
+		i=0;
+		signal = 0;//Signal de fin de la partie;
+		while(i<paramNbJoueurs){
+			write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
+			i++;
+		}		
 		return 0;
 	}
 }
@@ -72,7 +101,28 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int signal;
 	read(tubeIn, &signal, sizeof(int));
 	write(sock, &signal, sizeof(int));
-	
+
+	int tour;
+	int joueurDuTour;
+	int de;
+	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
+
+	read(tubeIn, &signal, sizeof(int));
+	while(signal !=0){
+		read(tubeIn, &tour, sizeof(int));
+		read(tubeIn, &joueurDuTour, sizeof(int));
+		read(tubeIn, &de, sizeof(int));
+		read(tubeIn, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		write(sock, &signal, sizeof(int));	
+		write(sock, &tour, sizeof(int));
+		write(sock, &joueurDuTour, sizeof(int));
+		write(sock, &de, sizeof(int));
+		write(sock, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+
+		read(tubeIn, &signal, sizeof(int));
+	}
+	write(sock, &signal, sizeof(int));
+
 	shutdown(sock, SHUT_RDWR);
 	return 0;
 }
@@ -87,19 +137,20 @@ int stringToInt (char* s){
 	return res;
 }
 
-/*int[][] initChevaux (int paramNbJoueurs, int paramNbChevaux){
-	int posChevaux[paramNbJoueurs][paramNbChevaux];
+int **initChevaux (int paramNbJoueurs, int paramNbChevaux){
+	int **posChevaux = malloc(sizeof(int)*paramNbJoueurs*paramNbChevaux);
 	int i = 0;
 	int j = 0;
 	while(i<paramNbJoueurs){
 		j=0;
 		int ecurie = 10*(i+1)+57;
 		while(j<paramNbChevaux){
-			posChevaux[i][j] = ecurie+j;
+			printf("init : %d\n", ecurie+j);
+			posChevaux[i*paramNbChevaux+j] = ecurie+j;
 			j++;
 		}
 		i++;
 	}
 	return posChevaux;
-}*/
+}
 
