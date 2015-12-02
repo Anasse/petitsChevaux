@@ -42,11 +42,31 @@ int main(int nbArgs, char* arg[]){
 	read(numSocket, &nbChevaux, sizeof(int));
 	printf("Il y a %d chevaux par joueur\n", nbChevaux);
 	
-	int signalDepart;
+	int signal;
 		
 	/* On attend et on lit le signal de depart */
-	read(numSocket, &signalDepart, sizeof(int));
-	printf("C'est parti ! (signal : %d)\n", signalDepart);
+	read(numSocket, &signal, sizeof(int));
+	printf("C'est parti ! (signal : %d)\n", signal);
+
+	/*Début du jeu; on lit différentes informations*/
+	int tour;
+	int joueurDuTour;
+	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
+	read(numSocket, &signal, sizeof(int));
+	while(signal != 0){
+		read(numSocket, &tour, sizeof(int));
+		read(numSocket, &joueurDuTour, sizeof(int));
+		read(numSocket, &valeurDe, sizeof(int));
+		read(numSocket, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		//read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
+		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
+		afftab(pos, nbJoueurs, nbChevaux);
+		if(joueurDuTour == numJoueur-1){
+			//printf("C'est mon tour !\n");
+		}
+		read(numSocket, &signal, sizeof(int));
+	}
+	
 	
 	//int jouer = 1;
 	//while(jouer){

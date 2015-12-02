@@ -30,5 +30,11 @@ PUBLIC char whichChar(int pos);
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
 PUBLIC int nbHorsesHome(Team t);
 
+//Résultat pseudo-aléatoire correspondant au lancé d'un dé.
+PUBLIC int lancerDes();
+
+//Affiche un tableau d'entiers sur x lignes et y colones
+PUBLIC void afftab (int **tab, int x, int y);
+
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */
