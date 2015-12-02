@@ -25,10 +25,10 @@ PUBLIC char* toString(Team t);
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-PUBLIC char whichChar(int pos);
+PUBLIC char whichChar(int pos, int nbC, int nbJ, int **posCh);
 
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
-PUBLIC int nbHorsesHome(Team t);
+PUBLIC int nbHorsesHome(Team t, int nbC, int **posCh);
 
 //Résultat pseudo-aléatoire correspondant au lancé d'un dé.
 PUBLIC int lancerDes();

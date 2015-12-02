@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------
  * Test de l'affichage du plateau pour le jeu des petits chevaux en mode texte
- * Auteur     : Damien Genthial
+ * Auteur     : Damien Genthial, modifié par Pauze, Chomarat, Berahab et Goudian
  */
 
 #include <stdio.h>
@@ -37,11 +37,32 @@ char* toString(Team t) {
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-char whichChar(int pos) {
-    // Pour faire un essai d'affichage de case non vide :
-    if (pos == 44) return ROUGE;
-    if (pos == 64) return ROUGE;
-
+char whichChar(int pos, int nbC, int nbJ, int **posCh) {
+	int i=0;
+	int j=0;
+	int ret = 5;
+	while(i<nbJ){
+		j=0;
+		while(j<nbC && posCh[i*nbC+j]!=pos){
+			j++;
+		}
+		if(j<nbC){ret = i;}
+		i++;
+	}
+	switch(ret){
+		case 1 :
+			return ROUGE;
+			break;
+		case 2 :
+			return MAGENTA;
+			break;
+		case 3 :
+			return VERTE;
+			break;
+		case 4 :
+			return BLEUE;
+			break;
+	}
     if (pos <= 56) {
         if ((pos % 14) == 1)
             return '=';
@@ -52,8 +73,21 @@ char whichChar(int pos) {
 }
 
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
-int nbHorsesHome(Team t) {
-    return 2;
+int nbHorsesHome(Team t, int nbC, int **posCh) {
+	int equipe;
+    if(t==ROUGE) {	equipe = 0;
+	}else if(t==MAGENTA){ equipe = 1;
+	}else if(t==VERTE){ equipe = 2;
+	}else if(t==BLEUE){ equipe = 3;}
+
+	int ret = 0;
+	int i = 0;
+	while(i<nbC){
+		if(posCh[equipe*nbC+i] >= 67+10*equipe && posCh[equipe*nbC+i] <= 67+10*equipe+3) ret++;
+		i++;
+	}
+
+	return ret;
 }
 
 int lancerDes(){
