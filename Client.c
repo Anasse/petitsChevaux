@@ -52,6 +52,8 @@ int main(int nbArgs, char* arg[]){
 	int tour;
 	int joueurDuTour;
 	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
+	char *choix = malloc(16*sizeof(char));
+	int selectionChoix;
 	read(numSocket, &signal, sizeof(int));
 	while(signal != 0){
 		read(numSocket, &tour, sizeof(int));
@@ -64,6 +66,11 @@ int main(int nbArgs, char* arg[]){
 		affichePlateau(5, 5, nbJoueurs, nbChevaux, pos);
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
+			enumererChoixPossibles(numSocket, nbChevaux, valeurDe);
+			printf("--> Votre choix ? : \n");
+			scanf("%d", &selectionChoix);
+			//??Verif saisie
+			write(numSocket, &selectionChoix, sizeof(int));
 		}
 		read(numSocket, &signal, sizeof(int));
 	}

@@ -63,15 +63,12 @@ int main (int nbArgs, char* args[]){
 		afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 		int tour = 0;
 		int joueurDuTour = 0;
+		int selectionChoix;
+		char *choix = malloc(4*paramNbChevaux*sizeof(char));
 		signal = 1;
-		posChevaux[0]=4;
-		posChevaux[1]=93;
-		posChevaux[2]=64;
-		posChevaux[3]=21;
-		afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
-		while(tour < 2){
+		while(tour < 5){
 			int de = lancerDes();
-			printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
+			//printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
 				write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
@@ -81,7 +78,12 @@ int main (int nbArgs, char* args[]){
 				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int*)*paramNbChevaux*paramNbJoueurs);
 				i++;
 			}
-			joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;
+			//??APPEL possibilités
+			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*16);
+			read(tubes_interfaces[2*joueurDuTour][0], selectionChoix, sizeof(int));
+			printf("Choix du client : %d\n", selectionChoix);
+			//??appliquer
+			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
 		}
 		i=0;
@@ -110,7 +112,8 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int joueurDuTour;
 	int de;
 	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
-
+	char *choix = malloc(16*sizeof(char));
+	int selectionChoix;
 	read(tubeIn, &signal, sizeof(int));
 	while(signal !=0){
 		read(tubeIn, &tour, sizeof(int));
@@ -122,6 +125,13 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		write(sock, &joueurDuTour, sizeof(int));
 		write(sock, &de, sizeof(int));
 		write(sock, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		if(joueurDuTour == idParam){
+			//C'est mon tour
+			read(tubeIn, choix, 16*sizeof(char));
+			write(sock, choix, 16*sizeof(char));
+			read(sock, &selectionChoix, sizeof(int));
+			write(tubeOut, &selectionChoix, sizeof(int));
+		}
 
 		read(tubeIn, &signal, sizeof(int));
 	}
