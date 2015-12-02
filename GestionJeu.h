@@ -30,5 +30,20 @@ PUBLIC char whichChar(int pos);
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
 PUBLIC int nbHorsesHome(Team t);
 
+// Applique le choix du joueur
+PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux);
+
+// Retourne la première case du joueur passé en paramètre (celle où vont les chevaux en sortant de l'écurie)
+PUBLIC int getPremiereCaseJoueur(int numJoueur);
+
+// Retourne la case suivante en gérant le passage de 56 à 1
+PUBLIC int getCaseSuivante(int caseCourante, int nbCasesAAvancer);
+
+// Retourne la première case de l'escalier ou la suivante selon la case courante
+PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
+
+// Retourne la première case de l'escalier
+PUBLIC int getPremierEscalierJoueur(int numJoueur);
+
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */
