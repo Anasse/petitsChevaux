@@ -46,20 +46,20 @@ char whichChar(int pos, int nbC, int nbJ, int **posCh) {
 		while(j<nbC && posCh[i*nbC+j]!=pos){
 			j++;
 		}
-		if(j<nbC){ret = i;}
+		if(j<nbC){ret = i;/*printf("wc : trouve %d en %d!!!\n", i, pos);*/}
 		i++;
 	}
 	switch(ret){
-		case 1 :
+		case 0 :
 			return ROUGE;
 			break;
-		case 2 :
+		case 1 :
 			return MAGENTA;
 			break;
-		case 3 :
+		case 2 :
 			return VERTE;
 			break;
-		case 4 :
+		case 3 :
 			return BLEUE;
 			break;
 	}

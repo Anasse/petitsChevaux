@@ -26,7 +26,6 @@ int main (int nbArgs, char* args[]){
 		int paramNbChevaux = stringToInt(args[2]);
 		int nbInscrits=0;
 		int i = 0;
-		int j = 0;
 		printf("Serveur des petits chevaux\nParties de %d joueurs à %d chevaux.\n", paramNbJoueurs, paramNbChevaux);
 		pid_t p=getpid();
 		//Création des tubes Base-interface
@@ -65,7 +64,12 @@ int main (int nbArgs, char* args[]){
 		int tour = 0;
 		int joueurDuTour = 0;
 		signal = 1;
-		while(tour < 5){
+		posChevaux[0]=4;
+		posChevaux[1]=93;
+		posChevaux[2]=64;
+		posChevaux[3]=21;
+		afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
+		while(tour < 2){
 			int de = lancerDes();
 			printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;

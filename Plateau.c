@@ -74,7 +74,7 @@ static void putColoredChar(char c) {
 }
 
 // Les origines permettent de décaler un peu le plateau dans la fenêtre
-void affichePlateau(int originRow, int originColumn) {
+void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int** posCh) {
     int i;
     int pos = 1;
 
@@ -82,67 +82,67 @@ void affichePlateau(int originRow, int originColumn) {
     jumpTo(originRow,originColumn + 17);
 
     red(); defaultColor = red;
-    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++)); left(1); down(1); }
+    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); down(1); }
     up(1); right(1);
-    for (i = 0; i < 6; i++) { putchar(' '); putColoredChar(whichChar(pos++)); }
-    down(1); left(1); putColoredChar(whichChar(pos++)); left(1); down(1);
+    for (i = 0; i < 6; i++) { putchar(' '); putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); }
+    down(1); left(1); putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); down(1);
 
     magenta(); defaultColor = magenta;
-    for (i = 0; i < 6; i++) { putColoredChar(whichChar(pos++)); left(3); }
-    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++)); left(1); down(1); }
-    up(1); left(2); putColoredChar(whichChar(pos++)); left(3);
+    for (i = 0; i < 6; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(3); }
+    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); down(1); }
+    up(1); left(2); putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(3);
 
     green(); defaultColor = green;
-    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++)); left(1); up(1); }
+    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); up(1); }
     down(1); left(2);
-    for (i = 0; i < 6; i++) { putColoredChar(whichChar(pos++)); left(3); }
-    up(1); right(2); putColoredChar(whichChar(pos++)); left(1); up(1);
+    for (i = 0; i < 6; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(3); }
+    up(1); right(2); putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); up(1);
 
     blue(); defaultColor = blue;
-    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++)); putchar(' '); }
+    for (i = 0; i < 7; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); putchar(' '); }
     left(2); up(1);
-    for (i = 0; i < 5; i++) { putColoredChar(whichChar(pos++)); left(1); up(1); }
-    putColoredChar(whichChar(pos++)); putchar(' '); putColoredChar(whichChar(pos++));
+    for (i = 0; i < 5; i++) { putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); left(1); up(1); }
+    putColoredChar(whichChar(pos++, nbC, nbJ, posCh)); putchar(' '); putColoredChar(whichChar(pos++, nbC, nbJ, posCh));
 
     // Escaliers
     left(1); down(1);
     red(); pos = 61;
-    for (i = 0; i < 6; i++) { putchar(whichChar(pos++)); left(1); down(1); }
+    for (i = 0; i < 6; i++) { putchar(whichChar(pos++, nbC, nbJ, posCh)); left(1); down(1); }
     
     right(12);
     magenta(); pos = 71;
-    for (i = 0; i < 6; i++) { putchar(whichChar(pos++)); left(3); }
+    for (i = 0; i < 6; i++) { putchar(whichChar(pos++, nbC, nbJ, posCh)); left(3); }
     
     down(6);
     green(); pos = 81;
-    for (i = 0; i < 6; i++) { putchar(whichChar(pos++)); left(1); up(1); }
+    for (i = 0; i < 6; i++) { putchar(whichChar(pos++, nbC, nbJ, posCh)); left(1); up(1); }
     
     left(12);
     blue(); pos = 91;
-    for (i = 0; i < 6; i++) { putchar(whichChar(pos++)); putchar(' '); }
+    for (i = 0; i < 6; i++) { putchar(whichChar(pos++, nbC, nbJ, posCh)); putchar(' '); }
 
     // Écuries
     jumpTo(originRow + 3, originColumn + 21);
     red();
-    for (i = 0; i < nbHorsesHome(ROUGE); i++) {
+    for (i = 0; i < nbHorsesHome(ROUGE, nbC, posCh); i++) {
         if (i == 2) { down(1); left(4); }
         putchar(whichCharHorse(ROUGE)); putchar(' ');
     }
     jumpTo(originRow + 10, originColumn + 21);
     magenta();
-    for (i = 0; i < nbHorsesHome(MAGENTA); i++) {
+    for (i = 0; i < nbHorsesHome(MAGENTA, nbC, posCh); i++) {
         if (i == 2) { down(1); left(4); }
         putchar(whichCharHorse(MAGENTA)); putchar(' ');
     }
     jumpTo(originRow +10, originColumn + 6);
     green();
-    for (i = 0; i < nbHorsesHome(VERTE); i++) {
+    for (i = 0; i < nbHorsesHome(VERTE, nbC, posCh); i++) {
         if (i == 2) { down(1); left(4); }
         putchar(whichCharHorse(VERTE)); putchar(' ');
     }
     jumpTo(originRow + 3, originColumn + 6);
     blue();
-    for (i = 0; i < nbHorsesHome(BLEUE); i++) {
+    for (i = 0; i < nbHorsesHome(BLEUE, nbC, posCh); i++) {
         if (i == 2) { down(1); left(4); }
         putchar(whichCharHorse(BLEUE)); putchar(' ');
     }
