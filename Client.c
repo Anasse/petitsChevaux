@@ -61,6 +61,7 @@ int main(int nbArgs, char* arg[]){
 		//read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
 		afftab(pos, nbJoueurs, nbChevaux);
+		affichePlateau(5, 5, nbJoueurs, nbChevaux, pos);
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
 		}
