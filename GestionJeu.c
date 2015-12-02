@@ -73,6 +73,7 @@ void afftab (int **tab, int x, int y){
 		}
 		printf("\n");
 		i++;
+	}
 }
 
 void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux){
