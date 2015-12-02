@@ -17,7 +17,7 @@ int main(int nbArgs, char* arg[])
 
 
     // Pour un centrage dans une fenêtre 80x24
-    affichePlateau(5, 24);
+    //affichePlateau(5, 24);
 
     // Pour l'exemple, si on a besoin de parcourir la liste des équipes ?
     Team t;

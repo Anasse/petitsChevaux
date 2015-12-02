@@ -18,8 +18,8 @@ coteServ : coteServ.o Reseau.o
 testPlateau: testPlateau.o Plateau.o GestionJeu.o
 	$(LD) -o testPlateau testPlateau.o Plateau.o GestionJeu.o
 
-Client : Client.o Reseau.o GestionJeu.o
-	$(LD) -o Client Client.o Reseau.o GestionJeu.o
+Client : Client.o Reseau.o GestionJeu.o Plateau.o
+	$(LD) -o Client Client.o Reseau.o GestionJeu.o Plateau.o
 
 TestClient : TestClient.o Reseau.o
 	$(LD) -o TestClient TestClient.o Reseau.o
@@ -42,7 +42,7 @@ coteClient.o : coteClient.c Reseau.h
 coteServ.o : coteServ.c Reseau.h
 	$(CC) coteServ.c
 
-Client.o : Client.c Reseau.h GestionJeu.h
+Client.o : Client.c Reseau.h GestionJeu.h Plateau.h
 	$(CC) Client.c
 
 TestClient.o : TestClient.c Reseau.h

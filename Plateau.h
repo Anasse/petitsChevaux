@@ -13,7 +13,7 @@
 #endif
 
 // Les origines permettent de décaler un peu le plateau dans la fenêtre
-PUBLIC void affichePlateau(int originRow, int originColumn);
+PUBLIC void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int** posCh);
 
 #undef PUBLIC
 #endif	/* PLATEAU_H */
