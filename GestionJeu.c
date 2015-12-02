@@ -90,6 +90,10 @@ int nbHorsesHome(Team t, int nbC, int **posCh) {
 	return ret;
 }
 
+/* 
+ * Entrées : aucune
+ * Sortie : numéro aléatoire entre 1 et 6 pour simuler un dé
+ */
 int lancerDes(){
 	srand(time(NULL));
 	int resultat = (rand()%6 +1);
@@ -110,7 +114,13 @@ void afftab (int **tab, int x, int y){
 	}
 }
 
-void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux){
+/* 
+ * Entrées : choix du joueur, numéro du joueur, valeur du dé, tableau
+ * à 2 dimensions contenant les positions des chevaux
+ * Sortie : aucune
+ * Action : met à jour les positions des chevaux en fonction du choix
+ */
+void appliquerChoix(int choix, int numJoueur, int valeurDe, int **positionChevaux){
 	int **newPositionChevaux = positionChevaux;
 	switch(choix){
 		/* Sortir cheval */
@@ -128,16 +138,16 @@ void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positio
 			break;
 		/* Avancer cheval */
 		case 4 :
-			newPositionChevaux[numJoueur][1] = getCaseSuivante(positionChevaux[numJoueur][1],nbCasesAAvancer);
+			newPositionChevaux[numJoueur][1] = getCaseSuivante(positionChevaux[numJoueur][1],valeurDe);
 			break;
 		case 5 :
-			newPositionChevaux[numJoueur][2] = getCaseSuivante(positionChevaux[numJoueur][2],nbCasesAAvancer);
+			newPositionChevaux[numJoueur][2] = getCaseSuivante(positionChevaux[numJoueur][2],valeurDe);
 			break;
 		case 6 :
-			newPositionChevaux[numJoueur][3] = getCaseSuivante(positionChevaux[numJoueur][3],nbCasesAAvancer);
+			newPositionChevaux[numJoueur][3] = getCaseSuivante(positionChevaux[numJoueur][3],valeurDe);
 			break;
 		case 7 :
-			newPositionChevaux[numJoueur][4] = getCaseSuivante(positionChevaux[numJoueur][4],nbCasesAAvancer);
+			newPositionChevaux[numJoueur][4] = getCaseSuivante(positionChevaux[numJoueur][4],valeurDe);
 			break;
 		/* Monter escalier */
 		case 8 :
@@ -168,6 +178,10 @@ void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positio
 	}
 }
 
+/* 
+ * Entrée : numéro du joueur
+ * Sortie : numéro de la première case d'un joueur
+ */
 int getPremiereCaseJoueur(int numJoueur){
 	switch(numJoueur){
 		case 1 :
@@ -187,14 +201,22 @@ int getPremiereCaseJoueur(int numJoueur){
 	}
 }
 
-int getCaseSuivante(int caseCourante, int nbCasesAAvancer){
-	int futurCase = caseCourante + nbCasesAAvancer;
+/* 
+ * Entrées : case courante, valeur du dé
+ * Sortie : numéro de la case suivante
+ */
+int getCaseSuivante(int caseCourante, int valeurDe){
+	int futurCase = caseCourante + valeurDe;
 	if(futurCase >= 57){
 		futurCase -= 56;
 	}
 	return futurCase;
 }
 
+/* 
+ * Entrées : case courante, numéro du joueur
+ * Sortie : numéro de la marche d'escalier suivante en gérant la première
+ */
 int getmonterEscalier(int caseCourante, int numJoueur){
 	if(caseCourante <= 56){
 		return getPremierEscalierJoueur(numJoueur);
@@ -204,6 +226,10 @@ int getmonterEscalier(int caseCourante, int numJoueur){
 	}
 }
 
+/* 
+ * Entrées : numéro du joueur
+ * Sortie : numéro de la première marche d'escalier d'un joueur
+ */
 int getPremierEscalierJoueur(int numJoueur){
 	switch(numJoueur){
 		case 1 :
