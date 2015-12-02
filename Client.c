@@ -8,9 +8,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-#define MAX 256
-#define publicPort 7777
-
 void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes);
 
 int main(int nbArgs, char* arg[]){
@@ -70,22 +67,23 @@ int main(int nbArgs, char* arg[]){
 		afftab(pos, nbJoueurs, nbChevaux);									//DEBUG
 		
 		/* On affiche le plateau de jeu */
-		affichePlateau(5, 5, nbJoueurs, nbChevaux, pos);
+		affichePlateau(5, 25, nbJoueurs, nbChevaux, pos);
 		
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
-			/* Enumeration des choix possibles */
+			// Enumeration des choix possibles
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe);
-			/* Lecture du choix du joueur */
-			printf("--> Votre choix ? : \n");
+			// Lecture du choix du joueur 
+			printf("--> Votre choix ? : ");
 			scanf("%d", &selectionChoix);
-			/* Envoi du choix du joueur au serveur */
+			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}
 		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));
+		printf("Je lit le signal %d\n", signal);
 	}
-	
+	printf("je ferme\n");
 	/* On ferme le socket */
 	close(numSocket);
 	return EXIT_SUCCESS;
@@ -101,7 +99,7 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
 	int i = 0;
 	if(nbChevaux == 2){
 		char choix[8];
-		read(numSocket,choix,8);
+		read(numSocket,choix,4*nbChevaux*sizeof(char));
 		while(i <= 7){
 			if(choix[i] == '1'){
 				auMoinsUnChoix = 1;
@@ -141,7 +139,7 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
 	}
 	else if(nbChevaux == 3){
 		char choix[12];
-		read(numSocket,choix,12);
+		read(numSocket,choix,4*nbChevaux*sizeof(char));
 		while(i <= 11){
 			if(choix[i] == '1'){
 				auMoinsUnChoix = 1;
@@ -193,7 +191,7 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
 	}
 	else if(nbChevaux == 4){
 		char choix[16];
-		read(numSocket,choix,16);
+		read(numSocket,choix,4*nbChevaux*sizeof(char));
 		while(i <= 15){
 			if(choix[i] == '1'){
 				auMoinsUnChoix = 1;
