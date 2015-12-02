@@ -15,6 +15,7 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes);
 
 int main(int nbArgs, char* arg[]){
 	
+	/* Si il n'y a pas 2 arguments à la fonction on donne une aide */
 	if(nbArgs != 3){
 		printf("Veuillez entrer 2 paramètres : - le nom du serveur\n - le numéro de port\n");
 		return EXIT_FAILURE;
@@ -30,7 +31,7 @@ int main(int nbArgs, char* arg[]){
 		return EXIT_FAILURE;
 	}
 		
-	/* On lit notre numero de joueur */
+	/* On lit notre numéro de joueur */
 	read(numSocket, &numJoueur, sizeof(int));
 	printf("Mon numéro de joueur est %d\n", numJoueur);
 	
@@ -38,13 +39,12 @@ int main(int nbArgs, char* arg[]){
 	read(numSocket, &nbJoueurs, sizeof(int));
 	printf("Il y a %d joueurs\n", nbJoueurs);
 	
-	/* On lit le nombre de chevaux */
+	/* On lit le nombre de chevaux par joueur */
 	read(numSocket, &nbChevaux, sizeof(int));
 	printf("Il y a %d chevaux par joueur\n", nbChevaux);
-	
-	int signal;
 		
-	/* On attend et on lit le signal de depart */
+	/* On attend le signal de depart */
+	int signal;
 	read(numSocket, &signal, sizeof(int));
 	printf("C'est parti ! (signal : %d)\n", signal);
 
@@ -52,92 +52,108 @@ int main(int nbArgs, char* arg[]){
 	int tour;
 	int joueurDuTour;
 	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
-	char *choix = malloc(16*sizeof(char));
+	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
+	
+	/* Signal de départ */
 	read(numSocket, &signal, sizeof(int));
+	
 	while(signal != 0){
+		/* On lit le tour, le joueur du tour, la valeur du dé, et les 
+		 * données de positionnement des chevaux */
 		read(numSocket, &tour, sizeof(int));
 		read(numSocket, &joueurDuTour, sizeof(int));
 		read(numSocket, &valeurDe, sizeof(int));
 		read(numSocket, pos, sizeof(int*)*nbJoueurs*nbChevaux);
-		//read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
-		afftab(pos, nbJoueurs, nbChevaux);
+		
+		afftab(pos, nbJoueurs, nbChevaux);									//DEBUG
+		
+		/* On affiche le plateau de jeu */
 		affichePlateau(5, 5, nbJoueurs, nbChevaux, pos);
+		
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
+			/* Enumeration des choix possibles */
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe);
+			/* Lecture du choix du joueur */
 			printf("--> Votre choix ? : \n");
 			scanf("%d", &selectionChoix);
-			//??Verif saisie
+			/* Envoi du choix du joueur au serveur */
 			write(numSocket, &selectionChoix, sizeof(int));
 		}
+		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));
 	}
 	
-	
-	//int jouer = 1;
-	//while(jouer){
-		///* On lit le num du joueur du tour */
-		//int joueurDuTour;
-		//read(numSocket, &joueurDuTour, sizeof(int));
-		//printf("C'est le tour du joueur numéro %d\n", joueurDuTour);
-		
-		//if(joueurDuTour != numJoueur){
-			//printf("C'est votre tour");
-		//}
-		
-		///* On lit la valeur du de */
-		//read(numSocket, &valeurDe, sizeof(int));
-		//printf("La valeur du dé est : %d\n", valeurDe);
-		
-		////Lire les données du tour
-				
-		//if(joueurDuTour != numJoueur){
-			//// Jouer son tour
-			
-			//enumererChoixPossibles(numSocket, nbChevaux, valeurDe);
-			//scanf(%d
-		//}
-	//}
-	
+	/* On ferme le socket */
 	close(numSocket);
 	return EXIT_SUCCESS;
 }
 
+/* 
+ * Entrées : numéro de socket, nombre de chevaux par joueur, valeur du dé
+ * Sortie : aucune
+ * Action : affiche les choix possibles du joueur pour la suite du jeu
+ */
 void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
-	printf("Veuillez choisir un mouvement : \n");
+	int auMoinsUnChoix;
+	int i = 0;
 	if(nbChevaux == 2){
 		char choix[8];
 		read(numSocket,choix,8);
+		while(i <= 7){
+			if(choix[i] == '1'){
+				auMoinsUnChoix = 1;
+			}
+			i++;
+		}
+		if(auMoinsUnChoix == 0){
+			printf("Aucun mouvement possible\n");
+		}
+		else{
+			printf("Veuillez choisir un mouvement : \n");
+		}
 		if(choix[0] == '1'){
 			printf("0 - Sortir un cheval 1\n");
 		}
 		if(choix[1] == '1'){
 			printf("1 - Sortir un cheval 2\n");
 		}
-		if(choix[4] == '1'){
+		if(choix[2] == '1'){
 			printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
 		}
-		if(choix[5] == '1'){
+		if(choix[3] == '1'){
 			printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
 		}
-		if(choix[8] == '1'){
+		if(choix[4] == '1'){
 			printf("8 - Monter l'escalier avec le cheval 1\n");
 		}
-		if(choix[9] == '1'){
+		if(choix[5] == '1'){
 			printf("9 - Monter l'escalier avec le cheval 2\n");
 		}
-		if(choix[12] == '1'){
+		if(choix[6] == '1'){
 			printf("12 - Faire gagner le cheval 1\n");
 		}
-		if(choix[13] == '1'){
+		if(choix[7] == '1'){
 			printf("13 - Faire gagner le cheval 2\n");
 		}
 	}
 	else if(nbChevaux == 3){
 		char choix[12];
 		read(numSocket,choix,12);
+		while(i <= 11){
+			if(choix[i] == '1'){
+				auMoinsUnChoix = 1;
+			}
+			i++;
+		}
+		if(auMoinsUnChoix == 0){
+			printf("Aucun mouvement possible\n");
+		}
+		else{
+			printf("Veuillez choisir un mouvement : \n");
+		}
 		if(choix[0] == '1'){
 			printf("0 - Sortir un cheval 1\n");
 		}
@@ -147,37 +163,49 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
 		if(choix[2] == '1'){
 			printf("2 - Sortir un cheval 3\n");
 		}
-		if(choix[4] == '1'){
+		if(choix[3] == '1'){
 			printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
 		}
-		if(choix[5] == '1'){
+		if(choix[4] == '1'){
 			printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
 		}
-		if(choix[6] == '1'){
+		if(choix[5] == '1'){
 			printf("6 - Avancer le cheval 3 de %d case(s)\n", valeurDe);
 		}
-		if(choix[8] == '1'){
+		if(choix[6] == '1'){
 			printf("8 - Monter l'escalier avec le cheval 1\n");
 		}
-		if(choix[9] == '1'){
+		if(choix[7] == '1'){
 			printf("9 - Monter l'escalier avec le cheval 2\n");
 		}
-		if(choix[10] == '1'){
+		if(choix[8] == '1'){
 			printf("10 - Monter l'escalier avec le cheval 3\n");
 		}
-		if(choix[12] == '1'){
+		if(choix[9] == '1'){
 			printf("12 - Faire gagner le cheval 1\n");
 		}
-		if(choix[13] == '1'){
+		if(choix[10] == '1'){
 			printf("13 - Faire gagner le cheval 2\n");
 		}
-		if(choix[14] == '1'){
+		if(choix[11] == '1'){
 			printf("14 - Faire gagner le cheval 3\n");
 		}
 	}
 	else if(nbChevaux == 4){
 		char choix[16];
 		read(numSocket,choix,16);
+		while(i <= 15){
+			if(choix[i] == '1'){
+				auMoinsUnChoix = 1;
+			}
+			i++;
+		}
+		if(auMoinsUnChoix == 0){
+			printf("Aucun mouvement possible\n");
+		}
+		else{
+			printf("Veuillez choisir un mouvement : \n");
+		}
 		if(choix[0] == '1'){
 			printf("0 - Sortir un cheval 1\n");
 		}
