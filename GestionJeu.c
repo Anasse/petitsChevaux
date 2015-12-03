@@ -230,3 +230,21 @@ int aGagne (int numJoueur, int nbC ,int* posC){
 	if(i==nbC){return 1;}
 	else{return 0;}
 }
+
+void etendreVecteurChoix (char* old, char* new, int nbC){
+	int j=0;
+	int i=0;
+	while( i <16){ //INIT
+		new[i] = '0';
+		i++;
+	}
+	i=0;
+	while( j < 4){ //COPIE
+		i=0;
+		while(i<nbC){
+			new[4*j+i] = old[j*nbC+i];
+			i++;
+		}
+		j++;
+	}
+}
