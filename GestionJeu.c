@@ -66,8 +66,9 @@ char whichChar(int pos, int nbC, int nbJ, int *posCh) {
     }
 }
 
-
 void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* c){
+	
+	
 	init(c, 4*nChev);
 	int positionFuture = 0;
 	int positionPresent = 0;
@@ -80,17 +81,20 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 			while(i < nChev ){
 				positionPresent = position[joueur*nChev + i];
 				positionFuture = positionPresent+ des;
+				/*TRACE*/ printf("Cheval position = %d \n", positionPresent);
+	
+			
 				/*
 				 * On verifie les ecuries d'abord si aucun cheval ne sort ou si l'ecurie 
 				 * */
-				if(position[joueur*nChev + i] == ecurie + i ){
-					c[i]= '1';
-				}
+				
 				if(positionPresent  >= ecurie && sortirCheval(position, nChev, joueur) ){
+					/*TRACE*/ printf(" Sortie le cheval position %d\n",positionPresent);
 
 					c[i] = '1';
 					sortie = 1 ; 
 				}
+				/* TRACE */printf("sortie = %d \n", sortie);
 				/*
 				 * On commencer par verifier si la case d'arrive est differente de notre cheval de depat( meme race)
 				 * Puis on verifie si le chemin est vide de chevaux :) 
@@ -108,16 +112,19 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 						switch(joueur){
 							case 0 : 
 								if(positionFuture <= 56 ){
+									/*TRACE*/ printf(" Avance ( des = 6)  \n");
 										c[i + nChev]= '1';
 									}
 								break;
 							default : 
 
 								if(positionPresent <= joueur*14 && positionFuture > joueur*14){//dans le cas ou il y a un depassement 
+										/*TRACE*/ printf("Depassement du debut d'escalier \n");
 										
 										c[i + nChev]= '0';			
 									}
 								else if((positionPresent != joueur*10 + 50 +des - 1) && (positionPresent != (joueur+1)*10 + 56) &&(positionPresent != (joueur+1)*10 + 55) && (sortie == 0) && positionPresent < 67){
+										/*TRACE*/ printf("Avancer sans risquer de depasser l'escalier \n");
 										c[i + nChev]= '1';
 									}
 								break;
@@ -128,9 +135,11 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				 * Grimper sur les escalier plus le cas de gagner
 				 * */
 				if(positionPresent == (joueur+1)*10 + 55){ 
+					/*TRACE*/ printf(" Monte l'escalier on atteint la case final\n");   		 
 					c[i + 2*nChev] = '1';
 				}		
 				if(positionPresent == (joueur+1)*10 + 56){ 
+					/*TRACE*/ printf("WIN \n");  		
 					c[i + 3*nChev] = '1';
 				}	
 				i++;
@@ -156,39 +165,47 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				
 				if(position[joueur*nChev +j] == positionFuture   ){
 					j =20;
+					/*TRACE*/ printf("DEDAAAANS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n");
 				}
 				j++;
 			}
 			
-			
+
 			if(j == nChev && (posAvancer(positionPresent, position, nChev, nbreJoueur, des))){
 					//on verifie si on atteint le debut des escaliers ou pas 
+					/*TRACE*/ printf(" Je suis dans le cas ou le des < 6  et j = %d \n", j);
 						switch(joueur){
 							case 0 : 
 								if(positionFuture <= 56 ){
+										/*TRACE*/ printf(" Avance \n");
 										c[i + nChev]= '1';
 									}
 								break;
 							default : 
 							
 								if(positionPresent <= joueur*14 && positionFuture > joueur*14){//dans le cas ou il y a un depassement 
+										/*TRACE*/ printf("Depassement du debut d'escalier \n");
 										c[i + nChev]= '0';			
 									}
 									
 							else if((positionPresent != (joueur+1)*10 + 50 +des - 1)  && positionPresent <= 56 )
 							{
+										/*TRACE*/ printf("Avancer sans risquer de depasser l'escalier \n");
 										c[i + nChev]= '1';
 									}
 								break;
 							}
 					}
 				if(joueur == 0 && des == 1 && positionPresent == 56){
+						/*TRACE*/ printf("Arrive devant l'escalier joueur 1 \n");
 						c[i + 2*nChev] = '1';
 					}
 				else if(des == 1 && positionPresent == joueur * 14 && joueur != 0){
+					/*TRACE*/ printf(" Arrive devant l'escalier n'importe quel joueur\n");
 						c[i +2*nChev] = '1';
 					}
 				else if(positionPresent == (joueur+1) * 10 + 50 + des -1){
+					/*TRACE*/ printf(" monter escalier \n");
 					c[i + 2 *nChev]= '1';
 
 					}
@@ -196,7 +213,8 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 			i++;
 		}
 		break;
-	}	
+	}
+	
 }
 
 	
@@ -224,6 +242,14 @@ int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des
 	while(i < nbreJoueur){
 		j =0;
 		while(j < nbreChev && positions[i*nbreChev+j]){
+			if(futur > 56){
+				
+				if(positions[i*nbreChev+j] + 56 < futur && positions[i*nbreChev+j] + 56  >actuel ){
+					avancer = 0;
+				}
+				
+			}
+				/*TRACE*/ printf("futur = %d \n", futur);
 			if(positions[i*nbreChev+j] < futur && positions[i*nbreChev+j]>actuel){
 				avancer = 0;
 				}
