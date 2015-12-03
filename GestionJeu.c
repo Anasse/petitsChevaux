@@ -322,24 +322,25 @@ void afftab (int *tab, int x, int y){
  */
 void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux, int nbC){
 	int *newPositionChevaux = positionChevaux;
+	int futureCase;
 	switch(choix){
 		/* Sortir cheval */
 		case 0:
 		case 1:
 		case 2:
 		case 3:
-			int futureCase = getPremiereCaseJoueur(numJoueur);
+			futureCase = getPremiereCaseJoueur(numJoueur);
 			mangerAdversaireSiPresent(futureCase,positionChevaux);
-			newPositionChevaux[numJoueur*nbC+choix] = futurCase;
+			newPositionChevaux[numJoueur*nbC+choix] = futureCase;
 			break;
 		/* Avancer cheval */
 		case 4:
 		case 5:
 		case 6:
 		case 7:
-			int futureCase = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
+			futureCase = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
 			mangerAdversaireSiPresent(futureCase,positionChevaux);
-			newPositionChevaux[numJoueur*nbC+(choix-4)] = futurCase;
+			newPositionChevaux[numJoueur*nbC+(choix-4)] = futureCase;
 			break;
 		/* Monter escalier */
 		case 8:
@@ -447,10 +448,10 @@ void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh){
 			if(i < 4){
 				positionCh[i] = i+67;
 			}
-			else if(4 <= i < 8){
+			else if(4 <= i && i < 8){
 				positionCh[i] = i+73;
 			}
-			else if(8 <= i < 12){
+			else if(8 <= i && i < 12){
 				positionCh[i] = i+79;
 			}
 			else if(12 <= i){
