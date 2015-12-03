@@ -72,7 +72,7 @@ int main(int nbArgs, char* arg[]){
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
 			// Enumeration des choix possibles
-			read(numSocket,choix,4*nbChevaux*sizeof(char));
+			read(numSocket,choix,16*sizeof(char));
 			i = 0;
 			while(i < 16 && choix[i] == '0'){
 				i++;
@@ -84,7 +84,8 @@ int main(int nbArgs, char* arg[]){
 			do{
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
-			}while((choix[selectionChoix] != '1')||(selectionChoix==20 && auMoinsUnChoix == 0));
+			}while((selectionChoix > 0 && selectionChoix < 16 && choix[selectionChoix] != '1' && auMoinsUnChoix == 1)||
+			(selectionChoix == 20 && auMoinsUnChoix == 0));
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}else{

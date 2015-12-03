@@ -86,7 +86,7 @@ int main (int nbArgs, char* args[]){
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
 			etendreVecteurChoix(choixTemp, choix, paramNbChevaux); 
-			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*4*paramNbChevaux);
+			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*16);
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
 			printf("Choix du client : %d\n", selectionChoix);
 			//??appliquer
@@ -135,8 +135,8 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		write(sock, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		if(joueurDuTour == idParam){
 			//C'est mon tour
-			read(tubeIn, choix, 4*nbChevaux*sizeof(char));
-			write(sock, choix, 4*nbChevaux*sizeof(char));
+			read(tubeIn, choix, 16*sizeof(char));
+			write(sock, choix, 16*sizeof(char));
 			read(sock, &selectionChoix, sizeof(int));
 			write(tubeOut, &selectionChoix, sizeof(int));
 		}
