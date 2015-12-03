@@ -74,6 +74,7 @@ int main(int nbArgs, char* arg[]){
 			// Enumeration des choix possibles
 			read(numSocket,choix,16*sizeof(char));
 			i = 0;
+			auMoinsUnChoix = 0;
 			while(i < 16 && choix[i] == '0'){
 				i++;
 			}
