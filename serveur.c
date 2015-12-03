@@ -11,7 +11,7 @@
 int inscription(int tubeOut, int tubeIn , int paramNbJoueurs);
 int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int nbChevaux);
 int stringToInt (char* s);
-void initChevaux (int** posChevaux, int paramNbJoueurs, int paramNbChevaux);
+void initChevaux (int* posChevaux, int paramNbJoueurs, int paramNbChevaux);
 
 
 int main (int nbArgs, char* args[]){
@@ -43,12 +43,15 @@ int main (int nbArgs, char* args[]){
 			msgSock = accept(numServer, NULL, NULL);
 			p=fork();
 			if(p==0){
+				close(numServer);
 				interface(tubes_interfaces[2*nbInscrits+1][0],tubes_interfaces[2*nbInscrits][1], nbInscrits, msgSock, paramNbJoueurs, 					paramNbChevaux);
 				return 0;
 			}
+			close(msgSock);
 			nbInscrits++;
 			printf("%d joueurs inscrits sur %d.\n", nbInscrits, paramNbJoueurs);
 		}
+		
 		shutdown(numServer, SHUT_RDWR);
 		//Envoi du signal de départ
 		printf("Début de la partie !\n");
@@ -59,7 +62,7 @@ int main (int nbArgs, char* args[]){
 			i++;
 		}
 		//JEU
-		int **posChevaux = malloc(sizeof(int*)*paramNbJoueurs*paramNbChevaux);
+		int *posChevaux = malloc(sizeof(int)*paramNbJoueurs*paramNbChevaux);
 		initChevaux(posChevaux, paramNbJoueurs, paramNbChevaux);
 		afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 		int tour = 0;
@@ -76,11 +79,11 @@ int main (int nbArgs, char* args[]){
 				write(tubes_interfaces[2*i+1][1], &tour, sizeof(int));
 				write(tubes_interfaces[2*i+1][1], &joueurDuTour, sizeof(int));
 				write(tubes_interfaces[2*i+1][1], &de, sizeof(int));
-				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int*)*paramNbChevaux*paramNbJoueurs);
+				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int)*paramNbChevaux*paramNbJoueurs);
 				i++;
 			}
 			//??APPEL possibilités
-			choix = "00110110";
+			choix = "10100100";
 			//
 			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*4*paramNbChevaux);
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
@@ -114,7 +117,7 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int tour;
 	int joueurDuTour;
 	int de;
-	int **pos = malloc(sizeof(int*)*nbJoueurs*nbChevaux);
+	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
 	read(tubeIn, &signal, sizeof(int));
@@ -122,13 +125,13 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		read(tubeIn, &tour, sizeof(int));
 		read(tubeIn, &joueurDuTour, sizeof(int));
 		read(tubeIn, &de, sizeof(int));
-		read(tubeIn, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		read(tubeIn, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		afftab(pos, nbJoueurs, nbChevaux);
 		write(sock, &signal, sizeof(int));	
 		write(sock, &tour, sizeof(int));
 		write(sock, &joueurDuTour, sizeof(int));
 		write(sock, &de, sizeof(int));
-		write(sock, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		write(sock, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		if(joueurDuTour == idParam){
 			//C'est mon tour
 			read(tubeIn, choix, 4*nbChevaux*sizeof(char));
@@ -154,7 +157,7 @@ int stringToInt (char* s){
 	return res;
 }
 
-void initChevaux (int** posChevaux, int paramNbJoueurs, int paramNbChevaux){
+void initChevaux (int* posChevaux, int paramNbJoueurs, int paramNbChevaux){
 	int i = 0;
 	int j = 0;
 	while(i<paramNbJoueurs){

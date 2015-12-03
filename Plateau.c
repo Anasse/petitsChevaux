@@ -74,7 +74,7 @@ static void putColoredChar(char c) {
 }
 
 // Les origines permettent de décaler un peu le plateau dans la fenêtre
-void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int** posCh) {
+void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int* posCh) {
     int i;
     int pos = 1;
 
@@ -147,6 +147,6 @@ void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int** pos
         putchar(whichCharHorse(BLEUE)); putchar(' ');
     }
 
-    normal(); jumpTo(23, 1);
+    normal(); jumpTo(20, 1); putchar('\n');
 }
 

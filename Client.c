@@ -48,7 +48,7 @@ int main(int nbArgs, char* arg[]){
 	/*Début du jeu; on lit différentes informations*/
 	int tour;
 	int joueurDuTour;
-	int **pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
+	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
 	
@@ -61,7 +61,7 @@ int main(int nbArgs, char* arg[]){
 		read(numSocket, &tour, sizeof(int));
 		read(numSocket, &joueurDuTour, sizeof(int));
 		read(numSocket, &valeurDe, sizeof(int));
-		read(numSocket, pos, sizeof(int*)*nbJoueurs*nbChevaux);
+		read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
 		
 		afftab(pos, nbJoueurs, nbChevaux);									//DEBUG
@@ -78,6 +78,8 @@ int main(int nbArgs, char* arg[]){
 			scanf("%d", &selectionChoix);
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
+		}else{
+			printf("Tour des autres joueurs, merci de patienter.\n");
 		}
 		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));

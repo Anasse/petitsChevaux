@@ -25,19 +25,19 @@ PUBLIC char* toString(Team t);
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-PUBLIC char whichChar(int pos, int nbC, int nbJ, int **posCh);
+PUBLIC char whichChar(int pos, int nbC, int nbJ, int *posCh);
 
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
-PUBLIC int nbHorsesHome(Team t, int nbC, int **posCh);
+PUBLIC int nbHorsesHome(Team t, int nbC, int *posCh);
 
 //Résultat pseudo-aléatoire correspondant au lancé d'un dé.
 PUBLIC int lancerDes();
 
 //Affiche un tableau d'entiers sur x lignes et y colones
-PUBLIC void afftab (int **tab, int x, int y);
+PUBLIC void afftab (int *tab, int x, int y);
 
 // Applique le choix du joueur
-PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux);
+PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int *positionChevaux, int nbC);
 
 // Retourne la première case du joueur passé en paramètre (celle où vont les chevaux en sortant de l'écurie)
 PUBLIC int getPremiereCaseJoueur(int numJoueur);

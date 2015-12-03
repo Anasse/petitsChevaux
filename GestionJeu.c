@@ -12,12 +12,6 @@
 
 #define ParadisChevaux 101
 
-void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int **positionChevaux);
-int getPremiereCaseJoueur(int numJoueur);
-int getCaseSuivante(int caseCourante, int nbCasesAAvancer);
-int getmonterEscalier(int caseCourante, int numJoueur);
-int getPremierEscalierJoueur(int numJoueur);
-
 // Retourne une chaîne correspondant à une équipe
 char* toString(Team t) {
     char* res;
@@ -37,7 +31,7 @@ char* toString(Team t) {
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-char whichChar(int pos, int nbC, int nbJ, int **posCh) {
+char whichChar(int pos, int nbC, int nbJ, int *posCh) {
 	int i=0;
 	int j=0;
 	int ret = 5;
@@ -73,7 +67,7 @@ char whichChar(int pos, int nbC, int nbJ, int **posCh) {
 }
 
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
-int nbHorsesHome(Team t, int nbC, int **posCh) {
+int nbHorsesHome(Team t, int nbC, int *posCh) {
 	int equipe;
     if(t==ROUGE) {	equipe = 0;
 	}else if(t==MAGENTA){ equipe = 1;
@@ -100,7 +94,7 @@ int lancerDes(){
 	return (resultat);
 }
 
-void afftab (int **tab, int x, int y){
+void afftab (int *tab, int x, int y){
 	int i = 0;
 	int j = 0;
 	while(i<x){
@@ -120,60 +114,38 @@ void afftab (int **tab, int x, int y){
  * Sortie : aucune
  * Action : met à jour les positions des chevaux en fonction du choix
  */
-void appliquerChoix(int choix, int numJoueur, int valeurDe, int **positionChevaux){
-	int **newPositionChevaux = positionChevaux;
+void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux, int nbC){
+	int *newPositionChevaux = positionChevaux;
 	switch(choix){
 		/* Sortir cheval */
-		case 0 :
-			newPositionChevaux[numJoueur][1] = getPremiereCaseJoueur(numJoueur);
-			break;
-		case 1 :
-			newPositionChevaux[numJoueur][2] = getPremiereCaseJoueur(numJoueur);
-			break;
-		case 2 :
-			newPositionChevaux[numJoueur][3] = getPremiereCaseJoueur(numJoueur);
-			break;
-		case 3 :
-			newPositionChevaux[numJoueur][4] = getPremiereCaseJoueur(numJoueur);
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			newPositionChevaux[numJoueur*nbC+choix] = getPremiereCaseJoueur(numJoueur);
+			//?Manger ?
 			break;
 		/* Avancer cheval */
-		case 4 :
-			newPositionChevaux[numJoueur][1] = getCaseSuivante(positionChevaux[numJoueur][1],valeurDe);
-			break;
-		case 5 :
-			newPositionChevaux[numJoueur][2] = getCaseSuivante(positionChevaux[numJoueur][2],valeurDe);
-			break;
-		case 6 :
-			newPositionChevaux[numJoueur][3] = getCaseSuivante(positionChevaux[numJoueur][3],valeurDe);
-			break;
-		case 7 :
-			newPositionChevaux[numJoueur][4] = getCaseSuivante(positionChevaux[numJoueur][4],valeurDe);
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			newPositionChevaux[numJoueur*nbC+(choix-4)] = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
+			//?Manger?
 			break;
 		/* Monter escalier */
-		case 8 :
-			newPositionChevaux[numJoueur][1] = getmonterEscalier(positionChevaux[numJoueur][1],numJoueur);
-			break;
-		case 9 :
-			newPositionChevaux[numJoueur][2] = getmonterEscalier(positionChevaux[numJoueur][2],numJoueur);
-			break;
-		case 10 :
-			newPositionChevaux[numJoueur][3] = getmonterEscalier(positionChevaux[numJoueur][3],numJoueur);
-			break;
-		case 11 :
-			newPositionChevaux[numJoueur][4] = getmonterEscalier(positionChevaux[numJoueur][4],numJoueur);
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+			newPositionChevaux[numJoueur*nbC+(choix-8)] = getmonterEscalier(positionChevaux[numJoueur*nbC+(choix-8)],numJoueur);
 			break;
 		/* Gagner cheval */
-		case 12 :
-			newPositionChevaux[numJoueur][1] = ParadisChevaux;
-			break;
-		case 13 :
-			newPositionChevaux[numJoueur][2] = ParadisChevaux;
-			break;
-		case 14 :
-			newPositionChevaux[numJoueur][3] = ParadisChevaux;
-			break;
-		case 15 :
-			newPositionChevaux[numJoueur][4] = ParadisChevaux;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+			newPositionChevaux[numJoueur*nbC+(choix-12)] = ParadisChevaux;
 			break;
 	}
 }
@@ -184,16 +156,16 @@ void appliquerChoix(int choix, int numJoueur, int valeurDe, int **positionChevau
  */
 int getPremiereCaseJoueur(int numJoueur){
 	switch(numJoueur){
-		case 1 :
+		case 0 :
 			return 1;
 			break;
-		case 2 :
+		case 1 :
 			return 15;
 			break;
-		case 3 :
+		case 2 :
 			return 29;
 			break;
-		case 4 :
+		case 3 :
 			return 43;
 			break;
 		default :
@@ -232,19 +204,29 @@ int getmonterEscalier(int caseCourante, int numJoueur){
  */
 int getPremierEscalierJoueur(int numJoueur){
 	switch(numJoueur){
-		case 1 :
+		case 0 :
 			return 61;
 			break;
-		case 2 :
+		case 1 :
 			return 71;
 			break;
-		case 3 :
+		case 2 :
 			return 81;
 			break;
-		case 4 :
+		case 3 :
 			return 91;
 			break;
 		default :
 			return 0;
 	}
+}
+
+//Renvoie 1 si le joueur numJoueur à gagné, 0 sinon; d'après la position de ses chevaux dans posC
+int aGagne (int numJoueur, int nbC ,int* posC){
+	int i=0;
+	while(i<nbC && posC[nbC*numJoueur+i] != ParadisChevaux){
+		i++;
+	}
+	if(i==nbC){return 1;}
+	else{return 0;}
 }
