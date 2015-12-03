@@ -81,9 +81,9 @@ int main (int nbArgs, char* args[]){
 				write(tubes_interfaces[2*i+1][1], &joueurDuTour, sizeof(int));
 				write(tubes_interfaces[2*i+1][1], &de, sizeof(int));
 				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int)*paramNbChevaux*paramNbJoueurs);
-				afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 				i++;
 			}
+			afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
 			etendreVecteurChoix(choixTemp, choix, paramNbChevaux); 
@@ -92,7 +92,7 @@ int main (int nbArgs, char* args[]){
 			printf("Choix du client %d : %d\n", joueurDuTour+1, selectionChoix);
 			if(selectionChoix != 20){
 				//??appliquer
-				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux);
+				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux, paramNbJoueurs);
 			}
 			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
