@@ -90,7 +90,7 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				 * 
 				 * */
 
-				if(positionPresent  >= ecurie && sortirCheval(position, nChev, joueur) ){
+				if(positionPresent  >= ecurie && positionPresent < 101 && sortirCheval(position, nChev, joueur) ){
 
 					c[i] = '1';
 					sortie = 1 ; 
