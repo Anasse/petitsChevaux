@@ -130,6 +130,7 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
+	int vainqueur;
 	read(tubeIn, &signal, sizeof(int));
 	while(signal !=0){
 		read(tubeIn, &tour, sizeof(int));
@@ -151,6 +152,8 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		read(tubeIn, &signal, sizeof(int));
 	}
 	write(sock, &signal, sizeof(int));
+	read(tubeIn, &vainqueur, sizeof(int));
+	write(sock, &vainqueur, sizeof(int));
 
 	shutdown(sock, SHUT_RDWR);
 	return 0;
