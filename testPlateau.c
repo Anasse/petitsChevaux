@@ -26,7 +26,7 @@ int main(int nbArgs, char* arg[])
 	int *position = malloc(sizeof(int)*nJoueur*nChev); 
 	position[0] = 67; 
 	position[1] =1;
-	position[2] =101;
+	position[2] =20;
 
 	position[1*nChev] = 77;
 	position[1*nChev+1] = 79;
