@@ -464,12 +464,16 @@ int getPremierEscalierJoueur(int numJoueur){
 
 //Renvoie 1 si le joueur numJoueur à gagné, 0 sinon; d'après la position de ses chevaux dans posC
 int aGagne (int numJoueur, int nbC ,int* posC){
+	if(numJoueur == -1){
+		return 0;
+	}else{ 
 	int i=0;
-	while(i<nbC && posC[nbC*numJoueur+i] != ParadisChevaux){
-		i++;
+		while(i<nbC && posC[nbC*numJoueur+i] != ParadisChevaux){
+			i++;
+		}
+		if(i==nbC){return 1;}
+		else{return 0;}
 	}
-	if(i==nbC){return 1;}
-	else{return 0;}
 }
 
 // Mange un cheval adverse si présent

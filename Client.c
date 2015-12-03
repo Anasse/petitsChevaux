@@ -53,7 +53,7 @@ int main(int nbArgs, char* arg[]){
 	int selectionChoix;
 	int auMoinsUnChoix = 0;
 	int i = 0;
-	
+	int vainqueur=-1;
 	/* Signal de départ */
 	read(numSocket, &signal, sizeof(int));
 	
@@ -68,7 +68,18 @@ int main(int nbArgs, char* arg[]){
 		/* On affiche le plateau de jeu */			
 		affichePlateau(2, 22, nbJoueurs, nbChevaux, pos);
 		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
-			
+		/*
+		printf("____\n|\ %d \\\n| \___\\\n\ |   |\n\|___|\n", valeurDe);
+			 ____
+			|\ 6 \
+			| \___\
+			\ |   |
+			 \|___|
+		
+		 ---
+		| 6 |
+		 ---
+		*/
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
 			// Enumeration des choix possibles
@@ -96,9 +107,10 @@ int main(int nbArgs, char* arg[]){
 		}
 		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));
-		printf("Je lit le signal %d\n", signal);
 	}
-	printf("je ferme\n");
+	read(numSocket, &vainqueur, sizeof(int));
+	printf("*************************************************\n");
+	printf("Fin de de la partie, acclamons le vainqueur, le joueur %d\n\n", vainqueur+1);
 	/* On ferme le socket */
 	close(numSocket);
 	return EXIT_SUCCESS;

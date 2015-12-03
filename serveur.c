@@ -70,9 +70,11 @@ int main (int nbArgs, char* args[]){
 		int selectionChoix;
 		char *choixTemp = malloc(paramNbChevaux*4*sizeof(char));
 		char *choix = malloc(16*sizeof(char));
+		int joueurDuTourPrec = -1;
 		signal = 1;
-		while(tour < 5150){
-			int de = lancerDes();
+		while(! aGagne(joueurDuTourPrec, paramNbChevaux, posChevaux)){
+			//int de = lancerDes();
+			/*TRICHE*/int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
 			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
@@ -95,6 +97,7 @@ int main (int nbArgs, char* args[]){
 				//??appliquer
 				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux, paramNbJoueurs);
 			}
+			joueurDuTourPrec = joueurDuTour;
 			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
 		}
@@ -102,6 +105,7 @@ int main (int nbArgs, char* args[]){
 		signal = 0;//Signal de fin de la partie;
 		while(i<paramNbJoueurs){
 			write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
+			write(tubes_interfaces[2*i+1][1], &joueurDuTourPrec, sizeof(int));
 			i++;
 		}		
 		return 0;
