@@ -51,6 +51,12 @@ PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
 // Retourne la première case de l'escalier
 PUBLIC int getPremierEscalierJoueur(int numJoueur);
 
+//Renvoie 1 si le joueur numJoueur à gagné, 0 sinon; d'après la position de ses chevaux dans posC
+PUBLIC int aGagne (int numJoueur, int nbC ,int* posC);
+
+// Mange un cheval adverse si présent
+PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh);
+
 
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */

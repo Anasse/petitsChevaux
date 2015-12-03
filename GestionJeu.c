@@ -122,16 +122,18 @@ void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux
 		case 1:
 		case 2:
 		case 3:
-			newPositionChevaux[numJoueur*nbC+choix] = getPremiereCaseJoueur(numJoueur);
-			//?Manger ?
+			int futureCase = getPremiereCaseJoueur(numJoueur);
+			mangerAdversaireSiPresent(futureCase,positionChevaux);
+			newPositionChevaux[numJoueur*nbC+choix] = futurCase;
 			break;
 		/* Avancer cheval */
 		case 4:
 		case 5:
 		case 6:
 		case 7:
-			newPositionChevaux[numJoueur*nbC+(choix-4)] = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
-			//?Manger?
+			int futureCase = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
+			mangerAdversaireSiPresent(futureCase,positionChevaux);
+			newPositionChevaux[numJoueur*nbC+(choix-4)] = futurCase;
 			break;
 		/* Monter escalier */
 		case 8:
@@ -230,3 +232,26 @@ int aGagne (int numJoueur, int nbC ,int* posC){
 	if(i==nbC){return 1;}
 	else{return 0;}
 }
+
+// Mange un cheval adverse si présent
+void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh){
+	int i = 0;
+	while(i < 16){
+		if(positionCh[i] == numCaseFuture){
+			if(i < 4){
+				positionCh[i] = i+67;
+			}
+			else if(4 <= i < 8){
+				positionCh[i] = i+73;
+			}
+			else if(8 <= i < 12){
+				positionCh[i] = i+79;
+			}
+			else if(12 <= i){
+				positionCh[i] = i+85;
+			}
+		}
+		i++;
+	}
+}
+	
