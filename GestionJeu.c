@@ -134,12 +134,10 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				/*
 				 * Grimper sur les escalier plus le cas de gagner
 				 * */
-				if(positionPresent == (joueur+1)*10 + 55){ 
-
+				if(positionPresent == (joueur+1)*10 + 55 && monter(positionPresent, position, joueur, nChev)){ 
 					c[i + 2*nChev] = '1';
 				}		
 				if(positionPresent == (joueur+1)*10 + 56){ 
-
 					c[i + 3*nChev] = '1';
 				}	
 				i++;
@@ -177,7 +175,7 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 						switch(joueur){
 							case 0 : 
 								if(positionFuture <= 56 ){
-
+										
 										c[i + nChev]= '1';
 									}
 								break;
@@ -204,8 +202,7 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 
 						c[i +2*nChev] = '1';
 					}
-				else if(positionPresent == (joueur+1) * 10 + 50 + des -1){
-
+				else if(positionPresent == (joueur+1) * 10 + 50 + des -1 &&  monter(positionPresent, position, joueur, nChev)){
 					c[i + 2 *nChev]= '1';
 
 					}
@@ -217,12 +214,26 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 	
 }
 
+int monter(int positionPresent, int *position, int joueur, int nbChev){
+	int i = 0 ;
+	int retour = 0 ;
+		
+	while(i < nbChev && (position[joueur*nbChev  +i ] != positionPresent + 1 )){
+		i++;
+		}
+	if(i == nbChev){
+		retour = 1 ;
+		}
+		return retour ;
+	}
+	
 	
 	
 int sortirCheval(int *position, int nbreChev, int joueur){
 	int i = 0; 
 	int retour = 1;
 	while(i < nbreChev){
+
 			if(position[joueur*nbreChev + i] == (joueur*14 + 1) ){
 				retour  = 0; 
 			}

@@ -67,5 +67,7 @@ void afficherChoixLG(char *tab, int x);
 PUBLIC void determinerChoix(int nChev, int nbreJoueyr, int joueur, int *position, int des, char *c);
 PUBLIC int sortirCheval(int *position, int nbreChev, int joueur);
 PUBLIC void init(char *tab, int x);
+
+PUBLIC int monter(int positionPresent, int *position, int joueur, int nbChev);
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */
