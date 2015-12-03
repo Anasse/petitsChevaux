@@ -71,7 +71,7 @@ int main (int nbArgs, char* args[]){
 		char *choixTemp = malloc(paramNbChevaux*4*sizeof(char));
 		char *choix = malloc(16*sizeof(char));
 		signal = 1;
-		while(tour < 150){
+		while(tour < 5150){
 			int de = lancerDes();
 			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;

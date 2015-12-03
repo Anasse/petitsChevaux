@@ -78,7 +78,7 @@ int main(int nbArgs, char* arg[]){
 			while(i < 16 && choix[i] == '0'){
 				i++;
 			}
-			if(i<16){auMoinsUnChoix = 1;}
+			if(i<16){auMoinsUnChoix = 1;}else{auMoinsUnChoix = 0;}
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix, auMoinsUnChoix);
 			//afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
