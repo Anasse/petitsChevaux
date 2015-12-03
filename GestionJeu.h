@@ -25,10 +25,35 @@ PUBLIC char* toString(Team t);
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-PUBLIC char whichChar(int pos);
+PUBLIC char whichChar(int pos, int nbC, int nbJ, int *posCh);
 
 // Nombre de chevaux restants à l'écurie pour une équipe donnée
-PUBLIC int nbHorsesHome(Team t);
+PUBLIC int nbHorsesHome(Team t, int nbC, int *posCh);
+
+//Résultat pseudo-aléatoire correspondant au lancé d'un dé.
+PUBLIC int lancerDes();
+
+//Affiche un tableau d'entiers sur x lignes et y colones
+PUBLIC void afftab (int *tab, int x, int y);
+
+// Applique le choix du joueur
+PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int *positionChevaux, int nbC);
+
+// Retourne la première case du joueur passé en paramètre (celle où vont les chevaux en sortant de l'écurie)
+PUBLIC int getPremiereCaseJoueur(int numJoueur);
+
+// Retourne la case suivante en gérant le passage de 56 à 1
+PUBLIC int getCaseSuivante(int caseCourante, int nbCasesAAvancer);
+
+// Retourne la première case de l'escalier ou la suivante selon la case courante
+PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
+
+// Retourne la première case de l'escalier
+PUBLIC int getPremierEscalierJoueur(int numJoueur);
+
+//Transforme un vecteur de 4*n caractères en 16 caractères.
+PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
+
 
 PUBLIC int lancerDes();
 PUBLIC void afficher(int *pos , int x, int y);
