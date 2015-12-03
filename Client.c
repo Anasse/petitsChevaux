@@ -79,13 +79,14 @@ int main(int nbArgs, char* arg[]){
 			}
 			if(i<16){auMoinsUnChoix = 1;}
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix, auMoinsUnChoix);
-			afficherChoix(choix, 16);
+			//afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
 			do{
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
-			}while((selectionChoix > 0 && selectionChoix < 16 && choix[selectionChoix] != '1' && auMoinsUnChoix == 1)||
-			(selectionChoix == 20 && auMoinsUnChoix == 0));
+				printf("trace choix %d\n", selectionChoix);
+			}while((auMoinsUnChoix == 1 &&(selectionChoix < 0 || selectionChoix > 16 || choix[selectionChoix] == '0'))||
+			(auMoinsUnChoix == 0 && selectionChoix != 20));
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}else{
