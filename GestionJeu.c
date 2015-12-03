@@ -81,19 +81,17 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				positionPresent = position[joueur*nChev + i];
 				positionFuture = positionPresent+ des;
 				/*
-				 * On verifie les ecuries d'abord si aucun cheval ne sort ou si l'ecurie 
+				 * On verifie si on peut sortir un cheval 
+				 * 	On commencer par verifier si la case d'arrive est differente de notre cheval de depat( meme race)
+				 * 
 				 * */
-				if(position[joueur*nChev + i] == ecurie + i ){
-					c[i]= '1';
-				}
 				if(positionPresent  >= ecurie && sortirCheval(position, nChev, joueur) ){
 
 					c[i] = '1';
 					sortie = 1 ; 
 				}
 				/*
-				 * On commencer par verifier si la case d'arrive est differente de notre cheval de depat( meme race)
-				 * Puis on verifie si le chemin est vide de chevaux :) 
+				 *Puis on verifie si le chemin est vide de chevaux :) 
 				 * */
 				 j=0;
 			while( j < nChev){
