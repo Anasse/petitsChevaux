@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes, char* choix);
+void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes, char* choix, int auMoinsUnChoix);
 
 int main(int nbArgs, char* arg[]){
 	
@@ -51,6 +51,8 @@ int main(int nbArgs, char* arg[]){
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
+	int auMoinsUnChoix = 0;
+	int i = 0;
 	
 	/* Signal de départ */
 	read(numSocket, &signal, sizeof(int));
@@ -71,12 +73,17 @@ int main(int nbArgs, char* arg[]){
 			//printf("C'est mon tour !\n");
 			// Enumeration des choix possibles
 			read(numSocket,choix,4*nbChevaux*sizeof(char));
-			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix);
+			i = 0;
+			while(i < 16 && choix[i] == '0'){
+				i++;
+			}
+			if(i<16){auMoinsUnChoix = 1;}
+			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix, auMoinsUnChoix);
 			// Lecture du choix du joueur 
 			do{
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
-			}while(choix[selectionChoix] != '1');
+			}while((choix[selectionChoix] != '1')||(selectionChoix==20 && auMoinsUnChoix == 0));
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}else{
@@ -97,17 +104,9 @@ int main(int nbArgs, char* arg[]){
  * Sortie : aucune
  * Action : affiche les choix possibles du joueur pour la suite du jeu
  */
-void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe, char* choix){
+void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe, char* choix, int auMoinsUnChoix){
 	//char choix[4*nbChevaux];
 	//read(numSocket,choix,4*nbChevaux*sizeof(char));
-	int auMoinsUnChoix = 0;
-	int i = 0;
-	while(i <= 7){
-		if(choix[i] == '1'){
-			auMoinsUnChoix = 1;
-		}
-		i++;
-	}
 	if(auMoinsUnChoix == 1){
 		printf("Veuillez choisir un mouvement : \n");
 		if(choix[0] == '1'){
@@ -160,7 +159,7 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe, char* ch
 		}
 	}
 	else{
-		printf("Aucun mouvement possible\n");
+		printf("Aucun mouvement possible, saisir '20' pour confirmer.\n");
 	}
 }
 
