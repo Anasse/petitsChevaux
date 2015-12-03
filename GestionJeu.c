@@ -40,7 +40,7 @@ char whichChar(int pos, int nbC, int nbJ, int *posCh) {
 		while(j<nbC && posCh[i*nbC+j]!=pos){
 			j++;
 		}
-		if(j<nbC){ret = i;/*printf("wc : trouve %d en %d!!!\n", i, pos);*/}
+		if(j<nbC){ret = i;}
 		i++;
 	}
 	switch(ret){

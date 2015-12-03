@@ -51,6 +51,9 @@ PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
 // Retourne la première case de l'escalier
 PUBLIC int getPremierEscalierJoueur(int numJoueur);
 
+//Transforme un vecteur de 4*n caractères en 16 caractères.
+PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
+
 
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */

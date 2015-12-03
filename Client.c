@@ -229,3 +229,21 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
 	}
 }
 
+void etendreVecteurChoix (char* old, char* new, int nbC){
+	int j=0;
+	int i=0;
+	while( i <16){ //INIT
+		new[i] = '0';
+		i++;
+	}
+	i=0;
+	while( j < 4){ //COPIE
+		i=0;
+		while(i<nbC){
+			new[4*j+i] = old[j*nbC+i];
+			i++;
+		}
+		j++;
+	}
+}
+
