@@ -73,7 +73,7 @@ int main (int nbArgs, char* args[]){
 		signal = 1;
 		while(tour < 150){
 			int de = lancerDes();
-			//printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
+			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
 				write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));

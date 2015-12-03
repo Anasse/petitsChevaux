@@ -24,8 +24,8 @@ int main(int nbArgs, char* arg[])
 	char c[4*nChev];
 	
 	int *position = malloc(sizeof(int)*nJoueur*nChev); 
-	position[0] = 18; 
-	position[1] =101;
+	position[0] = 67; 
+	position[1] =1;
 	position[2] =101;
 
 	position[1*nChev] = 77;
@@ -34,7 +34,7 @@ int main(int nbArgs, char* arg[])
 	
 	afficher(position, nJoueur,nChev);
 	printf("\n");
-	determinerChoix(nChev, nJoueur, 1, position, 6, c);
+	determinerChoix(nChev, nJoueur, 0, position, 6, c);
 	afficherChoix(c, 4*nChev);
 	
 	/*  PRINCIPALE 

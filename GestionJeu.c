@@ -451,7 +451,7 @@ int aGagne (int numJoueur, int nbC ,int* posC){
 void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh, int nbC, int nbJ){
 	int i = 0;
 	int j = 0;
-	printf("Je mange \n");
+	//printf("Je mange \n");
 	while(i < nbJ){
 		j = 0;
 		while(j < nbC){

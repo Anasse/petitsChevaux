@@ -82,6 +82,7 @@ int main(int nbArgs, char* arg[]){
 			//afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
 			do{
+				printf("AuMoinsUnChoix : %d\n",auMoinsUnChoix);
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
 				printf("trace choix %d\n", selectionChoix);
