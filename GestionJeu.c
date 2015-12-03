@@ -468,7 +468,7 @@ int aGagne (int numJoueur, int nbC ,int* posC){
 		return 0;
 	}else{ 
 	int i=0;
-		while(i<nbC && posC[nbC*numJoueur+i] != ParadisChevaux){
+		while(i<nbC && posC[nbC*numJoueur+i] == ParadisChevaux){
 			i++;
 		}
 		if(i==nbC){return 1;}
