@@ -51,11 +51,15 @@ PUBLIC int getmonterEscalier(int caseCourante, int numJoueur);
 // Retourne la première case de l'escalier
 PUBLIC int getPremierEscalierJoueur(int numJoueur);
 
+//Renvoie 1 si le joueur numJoueur à gagné, 0 sinon; d'après la position de ses chevaux dans posC
+PUBLIC int aGagne (int numJoueur, int nbC ,int* posC);
+
+// Mange un cheval adverse si présent
+PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh);
+
 //Transforme un vecteur de 4*n caractères en 16 caractères.
 PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
 
-
-PUBLIC int lancerDes();
 PUBLIC void afficher(int *pos , int x, int y);
 PUBLIC int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des);
 PUBLIC void afficherChoix(char *tab, int x);

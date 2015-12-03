@@ -67,7 +67,11 @@ char whichChar(int pos, int nbC, int nbJ, int *posCh) {
 }
 
 
+<<<<<<< HEAD
 void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* c){
+=======
+void choix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* c){
+>>>>>>> 2bb182fc970aa5b972b16a4a741dec10ea5deeb4
 	init(c, 4*nChev);
 	int positionFuture = 0;
 	int positionPresent = 0;
