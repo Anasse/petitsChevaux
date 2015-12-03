@@ -55,5 +55,12 @@ PUBLIC int getPremierEscalierJoueur(int numJoueur);
 PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
 
 
+PUBLIC int lancerDes();
+PUBLIC void afficher(int *pos , int x, int y);
+PUBLIC int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des);
+PUBLIC void afficherChoix(char *tab, int x);
+PUBLIC void choix(int nChev, int nbreJoueyr, int joueur, int *position, int des, char *c);
+PUBLIC int sortirCheval(int *position, int nbreChev, int joueur);
+PUBLIC void init(char *tab, int x);
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */
