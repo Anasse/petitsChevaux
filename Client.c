@@ -79,6 +79,7 @@ int main(int nbArgs, char* arg[]){
 			}
 			if(i<16){auMoinsUnChoix = 1;}
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix, auMoinsUnChoix);
+			afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
 			do{
 				printf("--> Votre choix ? : ");
