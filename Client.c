@@ -97,163 +97,135 @@ int main(int nbArgs, char* arg[]){
  * Action : affiche les choix possibles du joueur pour la suite du jeu
  */
 void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
-	int auMoinsUnChoix;
+	char choix[4*nbChevaux];
+	read(numSocket,choix,4*nbChevaux*sizeof(char));
+	int auMoinsUnChoix = 0;
 	int i = 0;
-	if(nbChevaux == 2){
-		char choix[8];
-		read(numSocket,choix,4*nbChevaux*sizeof(char));
-		while(i <= 7){
-			if(choix[i] == '1'){
-				auMoinsUnChoix = 1;
-			}
-			i++;
+	while(i <= 7){
+		if(choix[i] == '1'){
+			auMoinsUnChoix = 1;
 		}
-		if(auMoinsUnChoix == 0){
-			printf("Aucun mouvement possible\n");
-		}
-		else{
-			printf("Veuillez choisir un mouvement : \n");
-		}
-		if(choix[0] == '1'){
-			printf("0 - Sortir un cheval 1\n");
-		}
-		if(choix[1] == '1'){
-			printf("1 - Sortir un cheval 2\n");
-		}
-		if(choix[2] == '1'){
-			printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
-		}
-		if(choix[3] == '1'){
-			printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
-		}
-		if(choix[4] == '1'){
-			printf("8 - Monter l'escalier avec le cheval 1\n");
-		}
-		if(choix[5] == '1'){
-			printf("9 - Monter l'escalier avec le cheval 2\n");
-		}
-		if(choix[6] == '1'){
-			printf("12 - Faire gagner le cheval 1\n");
-		}
-		if(choix[7] == '1'){
-			printf("13 - Faire gagner le cheval 2\n");
-		}
+		i++;
 	}
-	else if(nbChevaux == 3){
-		char choix[12];
-		read(numSocket,choix,4*nbChevaux*sizeof(char));
-		while(i <= 11){
-			if(choix[i] == '1'){
-				auMoinsUnChoix = 1;
+	if(auMoinsUnChoix == 1){
+		printf("Veuillez choisir un mouvement : \n");
+		if(nbChevaux == 2){
+			if(choix[0] == '1'){
+				printf("0 - Sortir un cheval 1\n");
 			}
-			i++;
+			if(choix[1] == '1'){
+				printf("1 - Sortir un cheval 2\n");
+			}
+			if(choix[2] == '1'){
+				printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
+			}
+			if(choix[3] == '1'){
+				printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
+			}
+			if(choix[4] == '1'){
+				printf("8 - Monter l'escalier avec le cheval 1\n");
+			}
+			if(choix[5] == '1'){
+				printf("9 - Monter l'escalier avec le cheval 2\n");
+			}
+			if(choix[6] == '1'){
+				printf("12 - Faire gagner le cheval 1\n");
+			}
+			if(choix[7] == '1'){
+				printf("13 - Faire gagner le cheval 2\n");
+			}
 		}
-		if(auMoinsUnChoix == 0){
-			printf("Aucun mouvement possible\n");
+		else if(nbChevaux == 3){
+			if(choix[0] == '1'){
+				printf("0 - Sortir un cheval 1\n");
+			}
+			if(choix[1] == '1'){
+				printf("1 - Sortir un cheval 2\n");
+			}
+			if(choix[2] == '1'){
+				printf("2 - Sortir un cheval 3\n");
+			}
+			if(choix[3] == '1'){
+				printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
+			}
+			if(choix[4] == '1'){
+				printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
+			}
+			if(choix[5] == '1'){
+				printf("6 - Avancer le cheval 3 de %d case(s)\n", valeurDe);
+			}
+			if(choix[6] == '1'){
+				printf("8 - Monter l'escalier avec le cheval 1\n");
+			}
+			if(choix[7] == '1'){
+				printf("9 - Monter l'escalier avec le cheval 2\n");
+			}
+			if(choix[8] == '1'){
+				printf("10 - Monter l'escalier avec le cheval 3\n");
+			}
+			if(choix[9] == '1'){
+				printf("12 - Faire gagner le cheval 1\n");
+			}
+			if(choix[10] == '1'){
+				printf("13 - Faire gagner le cheval 2\n");
+			}
+			if(choix[11] == '1'){
+				printf("14 - Faire gagner le cheval 3\n");
+			}
 		}
-		else{
-			printf("Veuillez choisir un mouvement : \n");
-		}
-		if(choix[0] == '1'){
-			printf("0 - Sortir un cheval 1\n");
-		}
-		if(choix[1] == '1'){
-			printf("1 - Sortir un cheval 2\n");
-		}
-		if(choix[2] == '1'){
-			printf("2 - Sortir un cheval 3\n");
-		}
-		if(choix[3] == '1'){
-			printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
-		}
-		if(choix[4] == '1'){
-			printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
-		}
-		if(choix[5] == '1'){
-			printf("6 - Avancer le cheval 3 de %d case(s)\n", valeurDe);
-		}
-		if(choix[6] == '1'){
-			printf("8 - Monter l'escalier avec le cheval 1\n");
-		}
-		if(choix[7] == '1'){
-			printf("9 - Monter l'escalier avec le cheval 2\n");
-		}
-		if(choix[8] == '1'){
-			printf("10 - Monter l'escalier avec le cheval 3\n");
-		}
-		if(choix[9] == '1'){
-			printf("12 - Faire gagner le cheval 1\n");
-		}
-		if(choix[10] == '1'){
-			printf("13 - Faire gagner le cheval 2\n");
-		}
-		if(choix[11] == '1'){
-			printf("14 - Faire gagner le cheval 3\n");
-		}
+		else if(nbChevaux == 4){
+			if(choix[0] == '1'){
+				printf("0 - Sortir un cheval 1\n");
+			}
+			if(choix[1] == '1'){
+				printf("1 - Sortir un cheval 2\n");
+			}
+			if(choix[2] == '1'){
+				printf("2 - Sortir un cheval 3\n");
+			}
+			if(choix[3] == '1'){
+				printf("3 - Sortir un cheval 4\n");
+			}
+			if(choix[4] == '1'){
+				printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
+			}
+			if(choix[5] == '1'){
+				printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
+			}
+			if(choix[6] == '1'){
+				printf("6 - Avancer le cheval 3 de %d case(s)\n", valeurDe);
+			}
+			if(choix[7] == '1'){
+				printf("7 - Avancer le cheval 4 de %d case(s)\n", valeurDe);
+			}
+			if(choix[8] == '1'){
+				printf("8 - Monter l'escalier avec le cheval 1\n");
+			}
+			if(choix[9] == '1'){
+				printf("9 - Monter l'escalier avec le cheval 2\n");
+			}
+			if(choix[10] == '1'){
+				printf("10 - Monter l'escalier avec le cheval 3\n");
+			}
+			if(choix[11] == '1'){
+				printf("11 - Monter l'escalier avec le cheval 4\n");
+			}
+			if(choix[12] == '1'){
+				printf("12 - Faire gagner le cheval 1\n");
+			}
+			if(choix[13] == '1'){
+				printf("13 - Faire gagner le cheval 2\n");
+			}
+			if(choix[14] == '1'){
+				printf("14 - Faire gagner le cheval 3\n");
+			}
+			if(choix[15] == '1'){
+				printf("15 - Faire gagner le cheval 4\n");
+			}
+		}		
 	}
-	else if(nbChevaux == 4){
-		char choix[16];
-		read(numSocket,choix,4*nbChevaux*sizeof(char));
-		while(i <= 15){
-			if(choix[i] == '1'){
-				auMoinsUnChoix = 1;
-			}
-			i++;
-		}
-		if(auMoinsUnChoix == 0){
-			printf("Aucun mouvement possible\n");
-		}
-		else{
-			printf("Veuillez choisir un mouvement : \n");
-		}
-		if(choix[0] == '1'){
-			printf("0 - Sortir un cheval 1\n");
-		}
-		if(choix[1] == '1'){
-			printf("1 - Sortir un cheval 2\n");
-		}
-		if(choix[2] == '1'){
-			printf("2 - Sortir un cheval 3\n");
-		}
-		if(choix[3] == '1'){
-			printf("3 - Sortir un cheval 4\n");
-		}
-		if(choix[4] == '1'){
-			printf("4 - Avancer le cheval 1 de %d case(s)\n", valeurDe);
-		}
-		if(choix[5] == '1'){
-			printf("5 - Avancer le cheval 2 de %d case(s)\n", valeurDe);
-		}
-		if(choix[6] == '1'){
-			printf("6 - Avancer le cheval 3 de %d case(s)\n", valeurDe);
-		}
-		if(choix[7] == '1'){
-			printf("7 - Avancer le cheval 4 de %d case(s)\n", valeurDe);
-		}
-		if(choix[8] == '1'){
-			printf("8 - Monter l'escalier avec le cheval 1\n");
-		}
-		if(choix[9] == '1'){
-			printf("9 - Monter l'escalier avec le cheval 2\n");
-		}
-		if(choix[10] == '1'){
-			printf("10 - Monter l'escalier avec le cheval 3\n");
-		}
-		if(choix[11] == '1'){
-			printf("11 - Monter l'escalier avec le cheval 4\n");
-		}
-		if(choix[12] == '1'){
-			printf("12 - Faire gagner le cheval 1\n");
-		}
-		if(choix[13] == '1'){
-			printf("13 - Faire gagner le cheval 2\n");
-		}
-		if(choix[14] == '1'){
-			printf("14 - Faire gagner le cheval 3\n");
-		}
-		if(choix[15] == '1'){
-			printf("15 - Faire gagner le cheval 4\n");
-		}
+	else{
+		printf("Aucun mouvement possible\n");
 	}
 }
 
