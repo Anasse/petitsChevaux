@@ -255,7 +255,17 @@ void afficherChoix(char *tab, int x){
 			i++;
 		
 		}
-	}
+}
+
+void afficherChoixLG(char *tab, int x){
+	int i =0;
+	while(i < x){
+			printf("| %c ", tab[i]);
+			i++;
+		
+		}
+	printf("|\n");
+}
 
 void init(char *tab, int x){
 	int i =0;

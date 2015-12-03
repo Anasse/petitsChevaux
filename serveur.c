@@ -86,7 +86,8 @@ int main (int nbArgs, char* args[]){
 			afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
-			etendreVecteurChoix(choixTemp, choix, paramNbChevaux); 
+			etendreVecteurChoix(choixTemp, choix, paramNbChevaux);
+			/*TRACE*/afficherChoixLG(choix, 16); 
 			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*16);
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
 			printf("Choix du client %d : %d\n", joueurDuTour+1, selectionChoix);
