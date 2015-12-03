@@ -37,7 +37,7 @@ PUBLIC int lancerDes();
 PUBLIC void afftab (int *tab, int x, int y);
 
 // Applique le choix du joueur
-PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int *positionChevaux, int nbC);
+PUBLIC void appliquerChoix(int choix, int numJoueur, int nbCasesAAvancer, int *positionChevaux, int nbC, int nbJ);
 
 // Retourne la première case du joueur passé en paramètre (celle où vont les chevaux en sortant de l'écurie)
 PUBLIC int getPremiereCaseJoueur(int numJoueur);
@@ -55,7 +55,7 @@ PUBLIC int getPremierEscalierJoueur(int numJoueur);
 PUBLIC int aGagne (int numJoueur, int nbC ,int* posC);
 
 // Mange un cheval adverse si présent
-PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh);
+PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh, int nbC, int nbJ);
 
 //Transforme un vecteur de 4*n caractères en 16 caractères.
 PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
@@ -63,6 +63,7 @@ PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
 PUBLIC void afficher(int *pos , int x, int y);
 PUBLIC int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des);
 PUBLIC void afficherChoix(char *tab, int x);
+void afficherChoixLG(char *tab, int x);
 PUBLIC void determinerChoix(int nChev, int nbreJoueyr, int joueur, int *position, int des, char *c);
 PUBLIC int sortirCheval(int *position, int nbreChev, int joueur);
 PUBLIC void init(char *tab, int x);

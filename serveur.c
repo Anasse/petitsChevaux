@@ -71,9 +71,9 @@ int main (int nbArgs, char* args[]){
 		char *choixTemp = malloc(paramNbChevaux*4*sizeof(char));
 		char *choix = malloc(16*sizeof(char));
 		signal = 1;
-		while(tour < 50){
+		while(tour < 150){
 			int de = lancerDes();
-			//printf("Tour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
+			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
 				write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
@@ -83,15 +83,17 @@ int main (int nbArgs, char* args[]){
 				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int)*paramNbChevaux*paramNbJoueurs);
 				i++;
 			}
+			afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
-			etendreVecteurChoix(choixTemp, choix, paramNbChevaux); 
+			etendreVecteurChoix(choixTemp, choix, paramNbChevaux);
+			/*TRACE*/afficherChoixLG(choix, 16); 
 			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*16);
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
-			printf("Choix du client : %d\n", selectionChoix);
+			printf("Choix du client %d : %d\n", joueurDuTour+1, selectionChoix);
 			if(selectionChoix != 20){
 				//??appliquer
-				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux);
+				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux, paramNbJoueurs);
 			}
 			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
@@ -130,7 +132,6 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		read(tubeIn, &joueurDuTour, sizeof(int));
 		read(tubeIn, &de, sizeof(int));
 		read(tubeIn, pos, sizeof(int)*nbJoueurs*nbChevaux);
-		afftab(pos, nbJoueurs, nbChevaux);
 		write(sock, &signal, sizeof(int));	
 		write(sock, &tour, sizeof(int));
 		write(sock, &joueurDuTour, sizeof(int));

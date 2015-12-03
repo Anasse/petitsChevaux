@@ -66,7 +66,7 @@ int main(int nbArgs, char* arg[]){
 		read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
 		/*TRACE-DEBUG*/afftab(pos, nbJoueurs, nbChevaux);
 		/* On affiche le plateau de jeu */			
-		affichePlateau(5, 25, nbJoueurs, nbChevaux, pos);
+		affichePlateau(2, 22, nbJoueurs, nbChevaux, pos);
 		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
 			
 		if(joueurDuTour == numJoueur-1){
@@ -74,6 +74,7 @@ int main(int nbArgs, char* arg[]){
 			// Enumeration des choix possibles
 			read(numSocket,choix,16*sizeof(char));
 			i = 0;
+			auMoinsUnChoix = 0;
 			while(i < 16 && choix[i] == '0'){
 				i++;
 			}
@@ -82,6 +83,7 @@ int main(int nbArgs, char* arg[]){
 			//afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
 			do{
+				printf("AuMoinsUnChoix : %d\n",auMoinsUnChoix);
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
 				printf("trace choix %d\n", selectionChoix);
@@ -90,7 +92,7 @@ int main(int nbArgs, char* arg[]){
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}else{
-			printf("Tour des autres joueurs, merci de patienter.\n");
+			printf("Tour des autres joueurs, merci de patienter...\n");
 		}
 		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));

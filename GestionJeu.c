@@ -85,9 +85,11 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 	
 			
 				/*
-				 * On verifie les ecuries d'abord si aucun cheval ne sort ou si l'ecurie 
+				 * On verifie si on peut sortir un cheval 
+				 * 	On commencer par verifier si la case d'arrive est differente de notre cheval de depat( meme race)
+				 * 
 				 * */
-				
+
 				if(positionPresent  >= ecurie && sortirCheval(position, nChev, joueur) ){
 					/*TRACE*/ printf(" Sortie le cheval position %d\n",positionPresent);
 
@@ -96,8 +98,7 @@ void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int d
 				}
 				/* TRACE */printf("sortie = %d \n", sortie);
 				/*
-				 * On commencer par verifier si la case d'arrive est differente de notre cheval de depat( meme race)
-				 * Puis on verifie si le chemin est vide de chevaux :) 
+				 *Puis on verifie si le chemin est vide de chevaux :) 
 				 * */
 				 j=0;
 			while( j < nChev){
@@ -281,7 +282,17 @@ void afficherChoix(char *tab, int x){
 			i++;
 		
 		}
-	}
+}
+
+void afficherChoixLG(char *tab, int x){
+	int i =0;
+	while(i < x){
+			printf("| %c ", tab[i]);
+			i++;
+		
+		}
+	printf("|\n");
+}
 
 void init(char *tab, int x){
 	int i =0;
@@ -343,7 +354,7 @@ void afftab (int *tab, int x, int y){
  * Sortie : aucune
  * Action : met à jour les positions des chevaux en fonction du choix
  */
-void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux, int nbC){
+void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux, int nbC, int nbJ){
 	int *newPositionChevaux = positionChevaux;
 	int futureCase;
 	switch(choix){
@@ -353,7 +364,7 @@ void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux
 		case 2:
 		case 3:
 			futureCase = getPremiereCaseJoueur(numJoueur);
-			mangerAdversaireSiPresent(futureCase,positionChevaux);
+			mangerAdversaireSiPresent(futureCase,positionChevaux,nbC,nbJ);
 			newPositionChevaux[numJoueur*nbC+choix] = futureCase;
 			break;
 		/* Avancer cheval */
@@ -362,7 +373,7 @@ void appliquerChoix(int choix, int numJoueur, int valeurDe, int *positionChevaux
 		case 6:
 		case 7:
 			futureCase = getCaseSuivante(positionChevaux[numJoueur*nbC+(choix-4)],valeurDe);
-			mangerAdversaireSiPresent(futureCase,positionChevaux);
+			mangerAdversaireSiPresent(futureCase,positionChevaux,nbC,nbJ);
 			newPositionChevaux[numJoueur*nbC+(choix-4)] = futureCase;
 			break;
 		/* Monter escalier */
@@ -464,22 +475,17 @@ int aGagne (int numJoueur, int nbC ,int* posC){
 }
 
 // Mange un cheval adverse si présent
-void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh){
+void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh, int nbC, int nbJ){
 	int i = 0;
-	while(i < 16){
-		if(positionCh[i] == numCaseFuture){
-			if(i < 4){
-				positionCh[i] = i+67;
+	int j = 0;
+	//printf("Je mange \n");
+	while(i < nbJ){
+		j = 0;
+		while(j < nbC){
+			if((positionCh[(nbC*i)+j]) == numCaseFuture){
+				positionCh[(nbC*i)+j] = 10*(i + 1) + 57 + j;
 			}
-			else if(4 <= i && i < 8){
-				positionCh[i] = i+73;
-			}
-			else if(8 <= i && i < 12){
-				positionCh[i] = i+79;
-			}
-			else if(12 <= i){
-				positionCh[i] = i+85;
-			}
+			j++;
 		}
 		i++;
 	}
