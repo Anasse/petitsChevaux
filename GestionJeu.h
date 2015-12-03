@@ -57,6 +57,14 @@ PUBLIC int aGagne (int numJoueur, int nbC ,int* posC);
 // Mange un cheval adverse si présent
 PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh);
 
+//Transforme un vecteur de 4*n caractères en 16 caractères.
+PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
 
+PUBLIC void afficher(int *pos , int x, int y);
+PUBLIC int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des);
+PUBLIC void afficherChoix(char *tab, int x);
+PUBLIC void choix(int nChev, int nbreJoueyr, int joueur, int *position, int des, char *c);
+PUBLIC int sortirCheval(int *position, int nbreChev, int joueur);
+PUBLIC void init(char *tab, int x);
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */
