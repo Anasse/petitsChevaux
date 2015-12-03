@@ -67,9 +67,7 @@ char whichChar(int pos, int nbC, int nbJ, int *posCh) {
 }
 
 
-void choix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* c){
-	
-	
+void determinerChoix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* c){
 	init(c, 4*nChev);
 	int positionFuture = 0;
 	int positionPresent = 0;
@@ -199,8 +197,7 @@ void choix(int nChev, int nbreJoueur, int joueur, int *position, int des, char* 
 			i++;
 		}
 		break;
-	}
-	
+	}	
 }
 
 	
@@ -209,9 +206,6 @@ int sortirCheval(int *position, int nbreChev, int joueur){
 	int i = 0; 
 	int retour = 1;
 	while(i < nbreChev){
-		/*TRACE*/ printf(" position = > \%d n", position[joueur*nbreChev + i]);
-		/*TRACE*/ printf(" joueur*14 + 1 => %d\n ", joueur*14+1);
-
 			if(position[joueur*nbreChev + i] == (joueur*14 + 1) ){
 				retour  = 0; 
 			}
@@ -266,9 +260,7 @@ void afficherChoix(char *tab, int x){
 
 void init(char *tab, int x){
 	int i =0;
-	printf("INIITALISATION taille du tableau = %d \n", x);
 	while(i < x){
-			
 			tab[i] = '0';
 			//printf("| %c \n", tab[i]);
 			i++;

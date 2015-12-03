@@ -34,7 +34,7 @@ int main(int nbArgs, char* arg[])
 	
 	afficher(position, nJoueur,nChev);
 	printf("\n");
-	choix(nChev, nJoueur, 1, position, 6, c);
+	determinerChoix(nChev, nJoueur, 1, position, 6, c);
 	afficherChoix(c, 4*nChev);
 	
 	/*  PRINCIPALE 

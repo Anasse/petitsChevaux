@@ -68,7 +68,8 @@ int main (int nbArgs, char* args[]){
 		int tour = 0;
 		int joueurDuTour = 0;
 		int selectionChoix;
-		char *choix = malloc(4*paramNbChevaux*sizeof(char));
+		char *choixTemp = malloc(paramNbChevaux*4*sizeof(char));
+		char *choix = malloc(16*sizeof(char));
 		signal = 1;
 		while(tour < 5){
 			int de = lancerDes();
@@ -82,9 +83,9 @@ int main (int nbArgs, char* args[]){
 				write(tubes_interfaces[2*i+1][1], posChevaux, sizeof(int)*paramNbChevaux*paramNbJoueurs);
 				i++;
 			}
-			//??APPEL possibilités
-			choix = "10100100";
-			//
+			//APPEL possibilités
+			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
+			etendreVecteurChoix(choixTemp, choix, paramNbChevaux); 
 			write(tubes_interfaces[2*joueurDuTour+1][1], choix, sizeof(char)*4*paramNbChevaux);
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
 			printf("Choix du client : %d\n", selectionChoix);

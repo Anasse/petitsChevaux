@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes);
+void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes, char* choix);
 
 int main(int nbArgs, char* arg[]){
 	
@@ -62,20 +62,21 @@ int main(int nbArgs, char* arg[]){
 		read(numSocket, &joueurDuTour, sizeof(int));
 		read(numSocket, &valeurDe, sizeof(int));
 		read(numSocket, pos, sizeof(int)*nbJoueurs*nbChevaux);
-		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
-		
-		afftab(pos, nbJoueurs, nbChevaux);									//DEBUG
-		
-		/* On affiche le plateau de jeu */
+		/*TRACE-DEBUG*/afftab(pos, nbJoueurs, nbChevaux);
+		/* On affiche le plateau de jeu */			
 		affichePlateau(5, 25, nbJoueurs, nbChevaux, pos);
-		
+		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
+			
 		if(joueurDuTour == numJoueur-1){
 			//printf("C'est mon tour !\n");
 			// Enumeration des choix possibles
-			enumererChoixPossibles(numSocket, nbChevaux, valeurDe);
+			read(numSocket,choix,4*nbChevaux*sizeof(char));
+			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix);
 			// Lecture du choix du joueur 
-			printf("--> Votre choix ? : ");
-			scanf("%d", &selectionChoix);
+			do{
+				printf("--> Votre choix ? : ");
+				scanf("%d", &selectionChoix);
+			}while(choix[selectionChoix] != '1');
 			// Envoi du choix du joueur au serveur 
 			write(numSocket, &selectionChoix, sizeof(int));
 		}else{
@@ -96,9 +97,9 @@ int main(int nbArgs, char* arg[]){
  * Sortie : aucune
  * Action : affiche les choix possibles du joueur pour la suite du jeu
  */
-void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe){
-	char choix[4*nbChevaux];
-	read(numSocket,choix,4*nbChevaux*sizeof(char));
+void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe, char* choix){
+	//char choix[4*nbChevaux];
+	//read(numSocket,choix,4*nbChevaux*sizeof(char));
 	int auMoinsUnChoix = 0;
 	int i = 0;
 	while(i <= 7){
