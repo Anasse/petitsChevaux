@@ -135,7 +135,6 @@ int main (int nbArgs, char* args[]){
 		signal = 0;//Signal de fin de la partie;
 		while(i<paramNbJoueurs){
 			write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
-			write(tubes_interfaces[2*i+1][1], &joueurDuTourPrec, sizeof(int));
 			i++;
 		}		
 		return 0;
@@ -167,7 +166,6 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
-	int vainqueur;
 	read(tubeIn, &signal, sizeof(int));
 	while(signal !=0){
 		read(tubeIn, &tour, sizeof(int));
@@ -189,8 +187,6 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 		read(tubeIn, &signal, sizeof(int));
 	}
 	write(sock, &signal, sizeof(int));
-	read(tubeIn, &vainqueur, sizeof(int));
-	write(sock, &vainqueur, sizeof(int));
 
 	shutdown(sock, SHUT_RDWR);
 	return 0;

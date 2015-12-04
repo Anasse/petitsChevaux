@@ -32,13 +32,13 @@ int main(int nbArgs, char* arg[]){
 	/* On lit notre numéro de joueur */
 	read(numSocket, &numJoueur, sizeof(int));
 	switch(numJoueur){
-			case 0 :
+			case 1 :
 				couleurJoueur = "Rouge\0";
 				break;
-			case 1 :
+			case 2 :
 				couleurJoueur = "Magenta\0";
 				break;
-			case 2 :
+			case 3 :
 				couleurJoueur = "Vert\0";
 				break;
 			default :
@@ -84,7 +84,6 @@ int main(int nbArgs, char* arg[]){
 	int auMoinsUnChoix = 0;
 	int *ptrC = malloc(sizeof(int));//Utilisé dans affichage plateau, déclaré ici pour éviter les trop nombreux mallocs
 	i = 0;
-	int vainqueur=666;
 	/* Signal de départ */
 	read(numSocket, &signal, sizeof(int));
 	
@@ -150,9 +149,8 @@ int main(int nbArgs, char* arg[]){
 		/* Lecture du signal pour savoir si le jeu est fini */
 		read(numSocket, &signal, sizeof(int));
 	}
-	read(numSocket, &vainqueur, sizeof(int));
 	printf("*************************************************\n");
-	printf("Fin de de la partie, acclamons le vainqueur, le joueur %d\n\n", vainqueur+1);
+	printf("Fin de de la partie, acclamons le vainqueur, le joueur %s\n\n", couleurJoueurDuTour);
 	/* On ferme le socket */
 	close(numSocket);
 	return EXIT_SUCCESS;
