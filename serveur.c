@@ -20,9 +20,19 @@ int main (int nbArgs, char* args[]){
 		printf("Vous devez fournir trois arguments :\n-Le premier est le nombre de joueurs,\n-le second le nombre de chevaux par joueur,\n-Le troisième est le port réseau utilisé.\n");
 		return 1;
 	}else{
-		//Comportement Normal, nombre d'arguments correct.
 		int paramNbJoueurs = stringToInt(args[1]);
 		int paramNbChevaux = stringToInt(args[2]);
+		//Vérification des paramètres
+		if( paramNbJoueurs<= 1 ){
+			printf("Vous ne pouvez pas jouer tout seul !! (abruti <3 ) \n");
+			return 1;
+			}
+		if( paramNbChevaux == 0 ){
+			printf("Vous ne pouvez pas sans cheval !! (nigaud <3 ) \n");
+			return 1;
+		}
+		//Comportement Normal, nombre d'arguments correct.
+
 		int portPublic = stringToInt(args[3]);
 		int nbInscrits=0;
 		int i = 0;
@@ -75,8 +85,8 @@ int main (int nbArgs, char* args[]){
 		signal = 1;
 		
 		while(! aGagne(joueurDuTourPrec, paramNbChevaux, posChevaux)){
-			//int de = lancerDes();
-			/*TRICHE*/int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
+			int de = lancerDes();
+			// /*TRICHE*/int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
 			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
