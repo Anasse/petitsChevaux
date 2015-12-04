@@ -31,31 +31,16 @@ char* toString(Team t) {
 //      71..76 = escalier de l'équipe en bas à droite (magenta)
 //      81..86 = escalier de l'équipe en bas à gauche (vert)
 //      91..96 = escalier de l'équipe en haut à gauche (bleu)
-char whichChar(int pos, int nbC, int nbJ, int *posCh) {
+char whichChar(int pos, int nbC, int nbJ, int *posCh, char* nomChevaux, int* ptrCoul) {
 	int i=0;
 	int j=0;
-	int ret = 5;
 	while(i<nbJ){
 		j=0;
 		while(j<nbC && posCh[i*nbC+j]!=pos){
 			j++;
 		}
-		if(j<nbC){ret = i;}
+		if(j<nbC){ *ptrCoul=i; return nomChevaux[i*nbC+j]; }
 		i++;
-	}
-	switch(ret){
-		case 0 :
-			return ROUGE;
-			break;
-		case 1 :
-			return MAGENTA;
-			break;
-		case 2 :
-			return VERTE;
-			break;
-		case 3 :
-			return BLEUE;
-			break;
 	}
     if (pos <= 56) {
         if ((pos % 14) == 1)
