@@ -23,12 +23,12 @@ int main (int nbArgs, char* args[]){
 		int paramNbJoueurs = stringToInt(args[1]);
 		int paramNbChevaux = stringToInt(args[2]);
 		//Vérification des paramètres
-		if( paramNbJoueurs<= 1 ){
-			printf("Vous ne pouvez pas jouer tout seul !! (abruti <3 ) \n");
+		if( paramNbJoueurs<= 1 || paramNbJoueurs > 4 ){
+			printf("Entrez un nombre de joueur entre 2 et 4 \n");
 			return 1;
 			}
-		if( paramNbChevaux == 0 ){
-			printf("Vous ne pouvez pas sans cheval !! (nigaud <3 ) \n");
+		if( paramNbChevaux == 0 || paramNbChevaux > 4 ){
+			printf("Entrez un nombre de chevaux entre 1 et 4 \n");
 			return 1;
 		}
 		//Comportement Normal, nombre d'arguments correct.
