@@ -42,7 +42,7 @@ char whichChar(int pos, int nbC, int nbJ, int *posCh, char* nomChevaux, int* ptr
 		if(j<nbC){ *ptrCoul=i; return nomChevaux[i*nbC+j]; }
 		i++;
 	}
-	if (pos >= 67){return ' ';}
+	if ((pos >= 67 && pos<=70)||(pos>=77&&pos<=80)||(pos>=87&&pos<=90)||(pos>=97&&pos<=100)){return ' ';}
     if (pos <= 56) {
         if ((pos % 14) == 1)
             return '=';
