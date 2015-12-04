@@ -27,8 +27,10 @@ int main (int nbArgs, char* args[]){
 			printf("Entrez un nombre de joueur entre 2 et 4 \n");
 			return 1;
 			}
+
 		if( paramNbChevaux == 0 || paramNbChevaux > 4 ){
 			printf("Entrez un nombre de chevaux entre 1 et 4 \n");
+
 			return 1;
 		}
 		//Comportement Normal, nombre d'arguments correct.
@@ -63,6 +65,20 @@ int main (int nbArgs, char* args[]){
 		}
 		shutdown(numServer, SHUT_RDWR);
 		
+		//Capture du nom des chevaux
+		char* nomChevaux = malloc(sizeof(char)*paramNbJoueurs*paramNbChevaux);
+		i=0;
+		while(i<paramNbJoueurs){
+			read(tubes_interfaces[2*i][0], nomChevaux+(i*sizeof(char)*paramNbChevaux), paramNbChevaux*sizeof(char));
+			i++;
+		}
+		afficherChoixLG(nomChevaux, paramNbChevaux*paramNbJoueurs);
+		i=0;
+		while(i<paramNbJoueurs){
+			write(tubes_interfaces[2*i+1][1], nomChevaux, sizeof(char)*paramNbJoueurs*paramNbChevaux);
+			i++;
+		}
+
 		//Envoi du signal de départ
 		printf("Début de la partie !\n");
 		i=0;
@@ -86,7 +102,7 @@ int main (int nbArgs, char* args[]){
 		
 		while(! aGagne(joueurDuTourPrec, paramNbChevaux, posChevaux)){
 			int de = lancerDes();
-			// /*TRICHE*/int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
+			/*TRICHE*///int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
 			printf("\n\nTour:%d  dé:%d  joueur:%d\n", tour, de, joueurDuTour);
 			i=0;
 			while(i<paramNbJoueurs){
@@ -130,14 +146,21 @@ int interface(int tubeIn, int tubeOut, int idParam, int sock, int nbJoueurs, int
 	int numJoueur = idParam+1;
 	int nbJ = nbJoueurs;
 	int nbC = nbChevaux;
-	write(sock, &numJoueur, sizeof(int));
+	write(sock, &numJoueur, sizeof(int)); //Envoie des infos au client
 	write(sock, &nbJ, sizeof(int));	
 	write(sock, &nbC, sizeof(int));
-
+	//Capture du nom des dadas
+	char* nomChevauxJoueur = malloc(nbC*sizeof(char));
+	char* nomChevauxTous = malloc(nbC*nbJ*sizeof(char));
+	read(sock, nomChevauxJoueur, nbC*sizeof(char));
+	write(tubeOut, nomChevauxJoueur, nbC*sizeof(char));
+	read(tubeIn, nomChevauxTous, nbC*nbJ*sizeof(char));
+	write(sock, nomChevauxTous, nbC*nbJ*sizeof(char));
+	//
 	int signal;
 	read(tubeIn, &signal, sizeof(int));
 	write(sock, &signal, sizeof(int));
-
+	//Jeu :
 	int tour;
 	int joueurDuTour;
 	int de;
