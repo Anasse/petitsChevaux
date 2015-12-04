@@ -19,6 +19,7 @@ int main(int nbArgs, char* arg[]){
 	}
 	
 	int numJoueur, nbJoueurs, nbChevaux, valeurDe;
+	char* couleurJoueur = malloc(10*sizeof(char));
 	int arg2 = atoi(arg[2]);
 	
 	/* On se connecte au socket public */
@@ -30,7 +31,21 @@ int main(int nbArgs, char* arg[]){
 		
 	/* On lit notre numéro de joueur */
 	read(numSocket, &numJoueur, sizeof(int));
-	printf("Mon numéro de joueur est %d\n", numJoueur);
+	switch(numJoueur){
+			case 0 :
+				couleurJoueur = "Rouge\0";
+				break;
+			case 1 :
+				couleurJoueur = "Magenta\0";
+				break;
+			case 2 :
+				couleurJoueur = "Vert\0";
+				break;
+			default :
+				couleurJoueur = "Bleu\0";
+		}
+	printf("Ma couleur est %s\n", couleurJoueur);
+	//printf("Mon numéro de joueur est %d\n", numJoueur);
 	
 	/* On lit le nombre de joueurs */
 	read(numSocket, &nbJoueurs, sizeof(int));
@@ -57,11 +72,12 @@ int main(int nbArgs, char* arg[]){
 	/* On attend le signal de depart */
 	int signal;
 	read(numSocket, &signal, sizeof(int));
-	printf("C'est parti ! (signal : %d)\n", signal);
+	printf("Tous le monde est connecté, c'est parti !\n");
 
 	/*Début du jeu; on lit différentes informations*/
 	int tour;
 	int joueurDuTour;
+	char* couleurJoueurDuTour = malloc(10*sizeof(char));
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
@@ -82,7 +98,20 @@ int main(int nbArgs, char* arg[]){
 		/*TRACE-DEBUG*/afftab(pos, nbJoueurs, nbChevaux);
 		/* On affiche le plateau de jeu */			
 		affichePlateau(2, 22, nbJoueurs, nbChevaux, pos, nomChevauxTous, ptrC);
-		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
+		switch(joueurDuTour){
+			case 0 :
+				couleurJoueurDuTour = "Rouge\0";
+				break;
+			case 1 :
+				couleurJoueurDuTour = "Magenta\0";
+				break;
+			case 2 :
+				couleurJoueurDuTour = "Vert\0";
+				break;
+			default :
+				couleurJoueurDuTour = "Bleu\0";
+		}
+		printf("***Tour %d --- C'est au joueur %s !\tRésultat du dé : %d\n", tour, couleurJoueurDuTour, valeurDe);
 		/*
 		printf("____\n|\ %d \\\n| \___\\\n\ |   |\n\|___|\n", valeurDe);
 			 ____

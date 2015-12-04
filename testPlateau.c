@@ -28,13 +28,13 @@ int main(int nbArgs, char* arg[])
 	position[1] =1;
 	position[2] =20;
 
-	position[1*nChev] = 77;
-	position[1*nChev+1] = 79;
+	position[1*nChev] = 74;
+	position[1*nChev+1] = 75;
 	position[1*nChev + 2] = 78;
 	
 	afficher(position, nJoueur,nChev);
 	printf("\n");
-	determinerChoix(nChev, nJoueur, 0, position, 6, c);
+	determinerChoix(nChev, nJoueur, 1, position, 5, c);
 	afficherChoix(c, 4*nChev);
 	
 	/*  PRINCIPALE 

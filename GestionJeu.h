@@ -60,12 +60,26 @@ PUBLIC void mangerAdversaireSiPresent(int numCaseFuture, int* positionCh, int nb
 //Transforme un vecteur de 4*n caractères en 16 caractères.
 PUBLIC void etendreVecteurChoix (char* old, char* new, int nbC);
 
+//Affiche un tableau
 PUBLIC void afficher(int *pos , int x, int y);
+
+//Renvoie 1 si aucun cheval n'est sur notre chemin 
 PUBLIC int posAvancer(int actuel, int *positions, int nbreChev, int nbreJoueur, int des);
+
+//Affiche un choix
 PUBLIC void afficherChoix(char *tab, int x);
-void afficherChoixLG(char *tab, int x);
+PUBLIC void afficherChoixLG(char *tab, int x);
+
+//Renvoie un tableau des choix possibles
 PUBLIC void determinerChoix(int nChev, int nbreJoueyr, int joueur, int *position, int des, char *c);
+
+//Renvoie 1 si on peut sortir un cheval de l'écurie
 PUBLIC int sortirCheval(int *position, int nbreChev, int joueur);
+
+//Initialise le tableau
 PUBLIC void init(char *tab, int x);
+
+//Renvoie 1 si on peut monter dans les escaliers
+PUBLIC int monter(int positionPresent, int *position, int joueur, int nbChev);
 #undef PUBLIC
 #endif	/* GESTION_JEU_H */

@@ -20,9 +20,19 @@ int main (int nbArgs, char* args[]){
 		printf("Vous devez fournir trois arguments :\n-Le premier est le nombre de joueurs,\n-le second le nombre de chevaux par joueur,\n-Le troisième est le port réseau utilisé.\n");
 		return 1;
 	}else{
-		//Comportement Normal, nombre d'arguments correct.
 		int paramNbJoueurs = stringToInt(args[1]);
 		int paramNbChevaux = stringToInt(args[2]);
+		//Vérification des paramètres
+		if( paramNbJoueurs<= 1 ){
+			printf("Vous ne pouvez pas jouer tout seul !! (abruti <3 ) \n");
+			return 1;
+			}
+		if( paramNbChevaux == 0 ){
+			printf("Vous ne pouvez pas jouer sans cheval !! (nigaud <3 ) \n");
+			return 1;
+		}
+		//Comportement Normal, nombre d'arguments correct.
+
 		int portPublic = stringToInt(args[3]);
 		int nbInscrits=0;
 		int i = 0;
@@ -51,7 +61,6 @@ int main (int nbArgs, char* args[]){
 			nbInscrits++;
 			printf("%d joueurs inscrits sur %d.\n", nbInscrits, paramNbJoueurs);
 		}
-		
 		shutdown(numServer, SHUT_RDWR);
 		
 		//Capture du nom des chevaux
@@ -67,7 +76,7 @@ int main (int nbArgs, char* args[]){
 			write(tubes_interfaces[2*i+1][1], nomChevaux, sizeof(char)*paramNbJoueurs*paramNbChevaux);
 			i++;
 		}
-		
+
 		//Envoi du signal de départ
 		printf("Début de la partie !\n");
 		i=0;
@@ -88,6 +97,7 @@ int main (int nbArgs, char* args[]){
 		char *choix = malloc(16*sizeof(char));
 		int joueurDuTourPrec = -1;
 		signal = 1;
+		
 		while(! aGagne(joueurDuTourPrec, paramNbChevaux, posChevaux)){
 			int de = lancerDes();
 			/*TRICHE*///int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
@@ -102,6 +112,7 @@ int main (int nbArgs, char* args[]){
 				i++;
 			}
 			afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
+			
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
 			etendreVecteurChoix(choixTemp, choix, paramNbChevaux);
@@ -110,13 +121,14 @@ int main (int nbArgs, char* args[]){
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
 			printf("Choix du client %d : %d\n", joueurDuTour+1, selectionChoix);
 			if(selectionChoix != 20){
-				//??appliquer
+				// Application du choix du joueur
 				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux, paramNbJoueurs);
 			}
 			joueurDuTourPrec = joueurDuTour;
 			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
 		}
+		
 		i=0;
 		signal = 0;//Signal de fin de la partie;
 		while(i<paramNbJoueurs){
