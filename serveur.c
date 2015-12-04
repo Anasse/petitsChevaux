@@ -51,8 +51,8 @@ int main (int nbArgs, char* args[]){
 			nbInscrits++;
 			printf("%d joueurs inscrits sur %d.\n", nbInscrits, paramNbJoueurs);
 		}
-		
 		shutdown(numServer, SHUT_RDWR);
+		
 		//Envoi du signal de départ
 		printf("Début de la partie !\n");
 		i=0;
@@ -61,6 +61,7 @@ int main (int nbArgs, char* args[]){
 			write(tubes_interfaces[2*i+1][1], &signal, sizeof(int));
 			i++;
 		}
+		
 		//JEU
 		int *posChevaux = malloc(sizeof(int)*paramNbJoueurs*paramNbChevaux);
 		initChevaux(posChevaux, paramNbJoueurs, paramNbChevaux);
@@ -72,6 +73,7 @@ int main (int nbArgs, char* args[]){
 		char *choix = malloc(16*sizeof(char));
 		int joueurDuTourPrec = -1;
 		signal = 1;
+		
 		while(! aGagne(joueurDuTourPrec, paramNbChevaux, posChevaux)){
 			//int de = lancerDes();
 			/*TRICHE*/int de = 1;printf("triche : ");scanf("%d", &de);printf("\n");
@@ -86,6 +88,7 @@ int main (int nbArgs, char* args[]){
 				i++;
 			}
 			afftab(posChevaux, paramNbJoueurs, paramNbChevaux);
+			
 			//APPEL possibilités
 			determinerChoix(paramNbChevaux, paramNbJoueurs, joueurDuTour, posChevaux, de, choixTemp);
 			etendreVecteurChoix(choixTemp, choix, paramNbChevaux);
@@ -94,13 +97,14 @@ int main (int nbArgs, char* args[]){
 			read(tubes_interfaces[2*joueurDuTour][0], &selectionChoix, sizeof(int));
 			printf("Choix du client %d : %d\n", joueurDuTour+1, selectionChoix);
 			if(selectionChoix != 20){
-				//??appliquer
+				// Application du choix du joueur
 				appliquerChoix(selectionChoix, joueurDuTour, de, posChevaux, paramNbChevaux, paramNbJoueurs);
 			}
 			joueurDuTourPrec = joueurDuTour;
 			if(de !=6){joueurDuTour = (joueurDuTour+1)%paramNbJoueurs;}
 			tour ++;
 		}
+		
 		i=0;
 		signal = 0;//Signal de fin de la partie;
 		while(i<paramNbJoueurs){

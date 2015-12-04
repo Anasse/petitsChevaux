@@ -19,6 +19,7 @@ int main(int nbArgs, char* arg[]){
 	}
 	
 	int numJoueur, nbJoueurs, nbChevaux, valeurDe;
+	char couleurJoueur;
 	int arg2 = atoi(arg[2]);
 	
 	/* On se connecte au socket public */
@@ -30,7 +31,21 @@ int main(int nbArgs, char* arg[]){
 		
 	/* On lit notre numéro de joueur */
 	read(numSocket, &numJoueur, sizeof(int));
-	printf("Mon numéro de joueur est %d\n", numJoueur);
+	switch(numJoueur){
+			case 0 :
+				couleurJoueur = 'R';
+				break;
+			case 1 :
+				couleurJoueur = 'M';
+				break;
+			case 2 :
+				couleurJoueur = 'V';
+				break;
+			default :
+				couleurJoueur = 'B';
+		}
+	printf("Ma couleur est %c\n", couleurJoueur);
+	//printf("Mon numéro de joueur est %d\n", numJoueur);
 	
 	/* On lit le nombre de joueurs */
 	read(numSocket, &nbJoueurs, sizeof(int));
@@ -43,11 +58,12 @@ int main(int nbArgs, char* arg[]){
 	/* On attend le signal de depart */
 	int signal;
 	read(numSocket, &signal, sizeof(int));
-	printf("C'est parti ! (signal : %d)\n", signal);
+	printf("Tous le monde est connecté, c'est parti !\n");
 
 	/*Début du jeu; on lit différentes informations*/
 	int tour;
 	int joueurDuTour;
+	char couleurJoueurDuTour;
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
 	int selectionChoix;
@@ -67,7 +83,20 @@ int main(int nbArgs, char* arg[]){
 		/*TRACE-DEBUG*/afftab(pos, nbJoueurs, nbChevaux);
 		/* On affiche le plateau de jeu */			
 		affichePlateau(2, 22, nbJoueurs, nbChevaux, pos);
-		printf("***Tour %d --- C'est au joueur %d !\tRésultat du dé : %d\n", tour, joueurDuTour+1, valeurDe);
+		switch(joueurDuTour){
+			case 0 :
+				couleurJoueurDuTour = 'R';
+				break;
+			case 1 :
+				couleurJoueurDuTour = 'M';
+				break;
+			case 2 :
+				couleurJoueurDuTour = 'V';
+				break;
+			default :
+				couleurJoueurDuTour = 'B';
+		}
+		printf("***Tour %d --- C'est au joueur %c !\tRésultat du dé : %d\n", tour, couleurJoueurDuTour, valeurDe);
 		/*
 		printf("____\n|\ %d \\\n| \___\\\n\ |   |\n\|___|\n", valeurDe);
 			 ____
@@ -94,10 +123,10 @@ int main(int nbArgs, char* arg[]){
 			//afficherChoix(choix, 16);
 			// Lecture du choix du joueur 
 			do{
-				printf("AuMoinsUnChoix : %d\n",auMoinsUnChoix);
+				//TRACE printf("AuMoinsUnChoix : %d\n",auMoinsUnChoix);
 				printf("--> Votre choix ? : ");
 				scanf("%d", &selectionChoix);
-				printf("trace choix %d\n", selectionChoix);
+				//TRACE printf("trace choix %d\n", selectionChoix);
 			}while((auMoinsUnChoix == 1 &&(selectionChoix < 0 || selectionChoix > 16 || choix[selectionChoix] == '0'))||
 			(auMoinsUnChoix == 0 && selectionChoix != 20));
 			// Envoi du choix du joueur au serveur 
