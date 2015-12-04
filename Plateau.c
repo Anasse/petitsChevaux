@@ -83,6 +83,7 @@ void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int* posC
     clear();
     jumpTo(originRow,originColumn + 17);
 
+	*ptrCouleur = 0;
     red(); defaultColor = red;
     for (i = 0; i < 7; i++) {
     	tempo=whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur); 
@@ -176,29 +177,36 @@ void affichePlateau(int originRow, int originColumn, int nbJ, int nbC, int* posC
     for (i = 0; i < 6; i++) { putchar(whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur)); putchar(' '); }
 
     // Écuries
+    pos = 67;
     jumpTo(originRow + 3, originColumn + 21);
     red();
-    for (i = 0; i < nbHorsesHome(ROUGE, nbC, posCh); i++) {
+    for (i = 0; i < 4; i++) {
         if (i == 2) { down(1); left(4); }
-        putchar(whichCharHorse(ROUGE, nomChevaux, i, nbC)); putchar(' ');
+        putchar(whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur)); putchar(' ');
     }
+    
+    pos = 77;
     jumpTo(originRow + 10, originColumn + 21);
     magenta();
-    for (i = 0; i < nbHorsesHome(MAGENTA, nbC, posCh); i++) {
+    for (i = 0; i < 4; i++) {
         if (i == 2) { down(1); left(4); }
-        putchar(whichCharHorse(MAGENTA, nomChevaux, i, nbC)); putchar(' ');
+        putchar(whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur)); putchar(' ');
     }
+    
+    pos = 87;
     jumpTo(originRow +10, originColumn + 6);
     green();
-    for (i = 0; i < nbHorsesHome(VERTE, nbC, posCh); i++) {
+    for (i = 0; i < 4; i++) {
         if (i == 2) { down(1); left(4); }
-        putchar(whichCharHorse(VERTE, nomChevaux, i, nbC)); putchar(' ');
+        putchar(whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur)); putchar(' ');
     }
+    
+    pos=97;
     jumpTo(originRow + 3, originColumn + 6);
     blue();
-    for (i = 0; i < nbHorsesHome(BLEUE, nbC, posCh); i++) {
+    for (i = 0; i < 4; i++) {
         if (i == 2) { down(1); left(4); }
-        putchar(whichCharHorse(BLEUE, nomChevaux, i, nbC)); putchar(' ');
+        putchar(whichChar(pos++, nbC, nbJ, posCh, nomChevaux, ptrCouleur)); putchar(' ');
     }
 
     normal(); jumpTo(20, 1); putchar('\n');
