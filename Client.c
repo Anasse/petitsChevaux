@@ -7,9 +7,10 @@
 #include "Reseau.h"
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <string.h>
 
 void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDes, char* choix, int auMoinsUnChoix, char* nomCh);
-
+int stringToInt (char* s);
 int main(int nbArgs, char* arg[]){
 	
 	/* Si il n'y a pas 2 arguments à la fonction on donne une aide */
@@ -67,6 +68,13 @@ int main(int nbArgs, char* arg[]){
 		i++;
 	}
 	write(numSocket, nomChevauxJ, nbChevaux*sizeof(char));
+	//Vider le buffer de stdin
+	int c = 0;
+    while (c != '\n' && c != EOF)
+    {
+        c = getchar();
+    }
+    //
 	printf("En attente des autres joueurs...\n");
 	read(numSocket, nomChevauxTous, nbChevaux*nbJoueurs*sizeof(char));
 	/* On attend le signal de depart */
@@ -80,6 +88,7 @@ int main(int nbArgs, char* arg[]){
 	char* couleurJoueurDuTour = malloc(10*sizeof(char));
 	int *pos = malloc(sizeof(int)*nbJoueurs*nbChevaux);
 	char *choix = malloc(4*nbChevaux*sizeof(char));
+	char* bufferSaisie = malloc(10*sizeof(char));
 	int selectionChoix;
 	int auMoinsUnChoix = 0;
 	int *ptrC = malloc(sizeof(int));//Utilisé dans affichage plateau, déclaré ici pour éviter les trop nombreux mallocs
@@ -134,11 +143,12 @@ int main(int nbArgs, char* arg[]){
 			}
 			if(i<16){auMoinsUnChoix = 1;}else{auMoinsUnChoix = 0;}
 			enumererChoixPossibles(numSocket, nbChevaux, valeurDe, choix, auMoinsUnChoix, nomChevauxJ);
-			//afficherChoix(choix, 16);
-			// Lecture du choix du joueur 
+			// Lecture du choix du joueur
 			do{
 				printf("--> Votre choix ? : ");
-				scanf("%d", &selectionChoix);
+				if(fgets(bufferSaisie, 10, stdin)!=NULL){selectionChoix = atoi(bufferSaisie);
+				}else{selectionChoix=0;}
+				if(selectionChoix == 0){selectionChoix=20;}else{selectionChoix--;}
 			}while((auMoinsUnChoix == 1 &&(selectionChoix < 0 || selectionChoix > 16 || choix[selectionChoix] == '0'))||
 			(auMoinsUnChoix == 0 && selectionChoix != 20));
 			// Envoi du choix du joueur au serveur 
@@ -167,56 +177,65 @@ void enumererChoixPossibles(int numSocket, int nbChevaux, int valeurDe, char* ch
 	if(auMoinsUnChoix == 1){
 		printf("Veuillez choisir un mouvement : \n");
 		if(choix[0] == '1'){
-			printf("0 - Sortir le cheval %c\n", nomsCh[0]);
+			printf("1 - Sortir le cheval %c\n", nomsCh[0]);
 		}
 		if(choix[1] == '1'){
-			printf("1 - Sortir le cheval %c\n", nomsCh[1]);
+			printf("2 - Sortir le cheval %c\n", nomsCh[1]);
 		}
 		if(choix[2] == '1'){
-			printf("2 - Sortir le cheval %c\n", nomsCh[2]);
+			printf("3 - Sortir le cheval %c\n", nomsCh[2]);
 		}
 		if(choix[3] == '1'){
-			printf("3 - Sortir le cheval %c\n", nomsCh[3]);
+			printf("4 - Sortir le cheval %c\n", nomsCh[3]);
 		}
 		if(choix[4] == '1'){
-			printf("4 - Avancer le cheval %c de %d case(s)\n", nomsCh[0], valeurDe);
+			printf("5 - Avancer le cheval %c de %d case(s)\n", nomsCh[0], valeurDe);
 		}
 		if(choix[5] == '1'){
-			printf("5 - Avancer le cheval %c de %d case(s)\n", nomsCh[1], valeurDe);
+			printf("6 - Avancer le cheval %c de %d case(s)\n", nomsCh[1], valeurDe);
 		}
 		if(choix[6] == '1'){
-			printf("6 - Avancer le cheval %c de %d case(s)\n", nomsCh[2], valeurDe);
+			printf("7 - Avancer le cheval %c de %d case(s)\n", nomsCh[2], valeurDe);
 		}
 		if(choix[7] == '1'){
-			printf("7 - Avancer le cheval %c de %d case(s)\n", nomsCh[3], valeurDe);
+			printf("8 - Avancer le cheval %c de %d case(s)\n", nomsCh[3], valeurDe);
 		}
 		if(choix[8] == '1'){
-			printf("8 - Monter l'escalier avec le cheval %c\n", nomsCh[0]);
+			printf("9 - Monter l'escalier avec le cheval %c\n", nomsCh[0]);
 		}
 		if(choix[9] == '1'){
-			printf("9 - Monter l'escalier avec le cheval %c\n", nomsCh[1]);
+			printf("10 - Monter l'escalier avec le cheval %c\n", nomsCh[1]);
 		}
 		if(choix[10] == '1'){
-			printf("10 - Monter l'escalier avec le cheval %c\n", nomsCh[2]);
+			printf("11 - Monter l'escalier avec le cheval %c\n", nomsCh[2]);
 		}
 		if(choix[11] == '1'){
-			printf("11 - Monter l'escalier avec le cheval %c\n", nomsCh[3]);
+			printf("12 - Monter l'escalier avec le cheval %c\n", nomsCh[3]);
 		}
 		if(choix[12] == '1'){
-			printf("12 - Faire gagner le cheval %c\n", nomsCh[0]);
+			printf("13 - Faire gagner le cheval %c\n", nomsCh[0]);
 		}
 		if(choix[13] == '1'){
-			printf("13 - Faire gagner le cheval %c\n", nomsCh[1]);
+			printf("14 - Faire gagner le cheval %c\n", nomsCh[1]);
 		}
 		if(choix[14] == '1'){
-			printf("14 - Faire gagner le cheval %c\n", nomsCh[2]);
+			printf("15 - Faire gagner le cheval %c\n", nomsCh[2]);
 		}
 		if(choix[15] == '1'){
-			printf("15 - Faire gagner le cheval %c\n", nomsCh[3]);
+			printf("16 - Faire gagner le cheval %c\n", nomsCh[3]);
 		}
 	}
 	else{
-		printf("Aucun mouvement possible, saisir '20' pour confirmer.\n");
+		printf("Aucun mouvement possible, 'entrer' pour confirmer.\n");
 	}
 }
 
+int stringToInt (char* s){
+	int res =0;
+	int i=0;
+	while(i < strlen(s)){
+		res = 10*res + (s[i]-'0');
+		i++;
+	}
+	return res;
+}
